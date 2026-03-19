@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Fixify — Home Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0b0b0e;--surf:#141418;--card:#1c1c23;--card2:#22222c;--border:#28282f;--border2:#36363f;
+  --accent:#f59e0b;--accent-d:#d97706;--ag:rgba(245,158,11,.12);
+  --red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a78bfa;--teal:#14b8a6;
+  --text:#f1f0ea;--muted:#8b8a96;--muted2:#52515c;
+  --r:16px;--rsm:10px;--rxs:7px;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px}
+.app{position:relative;width:100vw;height:100vh;overflow:hidden}
+
+/* PAGES */
+.page{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;transform:translateY(8px)}
+.page.active{opacity:1;pointer-events:all;transform:none}
+
+/* AUTH COMMON */
+.auth-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(245,158,11,.18) 0%,transparent 65%);pointer-events:none}
+.auth-scroll{flex:1;overflow-y:auto;padding:0 22px 40px;position:relative;z-index:1}
+.auth-logo{text-align:center;padding:56px 0 32px}
+.auth-wordmark{font-family:var(--fh);font-size:36px;font-weight:800;color:var(--accent);letter-spacing:-1.5px}
+.auth-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.auth-card{background:var(--surf);border:0.5px solid var(--border);border-radius:var(--r);padding:22px;max-width:400px;margin:0 auto}
+.auth-title{font-family:var(--fh);font-size:19px;font-weight:700;margin-bottom:3px;letter-spacing:-.4px}
+.auth-hint{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+
+/* ROLE TOGGLE */
+.role-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.role-opt{padding:14px 12px;border-radius:var(--rsm);border:0.5px solid var(--border);cursor:pointer;text-align:center;transition:all .18s;background:var(--card)}
+.role-opt:hover{border-color:var(--border2)}
+.role-opt.on{border-color:var(--accent);background:var(--ag)}
+.role-opt-ico{font-size:24px;margin-bottom:6px}
+.role-opt-name{font-family:var(--fh);font-size:13px;font-weight:700}
+.role-opt-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* INPUTS */
+.iw{margin-bottom:13px}
+.il{font-size:10px;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.7px}
+.inp{width:100%;background:var(--card);border:0.5px solid var(--border);border-radius:var(--rxs);padding:11px 13px;color:var(--text);font-family:var(--fb);font-size:13px;outline:none;transition:border .14s}
+.inp:focus{border-color:var(--accent)}
+.inp::placeholder{color:var(--muted2)}
+select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b8a96' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* BUTTONS */
+.btn{padding:11px 18px;border-radius:var(--rsm);font-family:var(--fb);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .16s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-p{background:var(--accent);color:#0b0b0e;font-weight:700}
+.btn-p:hover{background:var(--accent-d);transform:translateY(-1px)}
+.btn-p:active{transform:scale(.98)}
+.btn-s{background:var(--card);color:var(--text);border:0.5px solid var(--border)}
+.btn-s:hover{background:var(--card2);border-color:var(--border2)}
+.btn-ghost{background:transparent;color:var(--muted);border:none}
+.btn-ghost:hover{color:var(--text)}
+.btn-danger{background:rgba(239,68,68,.1);color:var(--red);border:0.5px solid rgba(239,68,68,.22)}
+.btn-full{width:100%}
+.btn-lg{padding:13px 22px;font-size:14px}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:var(--rxs)}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none!important}
+.lnk-btn{background:none;border:none;color:var(--accent);font-family:var(--fb);font-size:12px;cursor:pointer;padding:0}
+.lnk-btn:hover{text-decoration:underline}
+.div-or{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted2);font-size:11px}
+.div-or::before,.div-or::after{content:'';flex:1;height:0.5px;background:var(--border)}
+.terms{font-size:11px;color:var(--muted2);text-align:center;margin-top:13px;line-height:1.5}
+
+/* APP SHELL */
+.app-shell{display:flex;width:100%;height:100%}
+.sidebar{width:228px;min-width:228px;height:100%;background:var(--surf);border-right:0.5px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:width .26s}
+.sidebar.slim{width:58px;min-width:58px}
+.sidebar.slim .brand-txt,.sidebar.slim .nav-lbl,.sidebar.slim .pill-meta,.sidebar.slim .nav-txt,.sidebar.slim .nav-badge{display:none!important}
+.brand-bar{padding:18px 16px 13px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.brand-mark{width:32px;height:32px;min-width:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#f97316);display:flex;align-items:center;justify-content:center;font-size:16px}
+.brand-txt{font-family:var(--fh);font-size:20px;font-weight:800;color:var(--accent);letter-spacing:-1px;white-space:nowrap}
+.sidebar-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 9px}
+.nav-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);padding:9px 8px 5px;white-space:nowrap}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rxs);cursor:pointer;font-size:13px;color:var(--muted);transition:all .13s;border:none;background:none;width:100%;text-align:left;white-space:nowrap;overflow:hidden}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.nav-item.active{background:rgba(255,255,255,.07);color:var(--text)}
+.nav-icon{font-size:15px;width:19px;min-width:19px;text-align:center}
+.nav-badge{font-size:10px;background:var(--red);color:white;padding:2px 6px;border-radius:20px;margin-left:auto}
+.sidebar-footer{padding:11px 9px;border-top:0.5px solid var(--border);flex-shrink:0}
+.user-pill{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rxs);background:var(--card);cursor:pointer;overflow:hidden;transition:background .13s}
+.user-pill:hover{background:var(--card2)}
+.pill-ava{width:28px;height:28px;min-width:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0}
+.pill-meta{overflow:hidden}
+.pill-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill-role{font-size:10px;color:var(--muted)}
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:54px;min-height:54px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:11px;background:var(--surf);flex-shrink:0}
+.topbar-title{font-family:var(--fh);font-size:14px;font-weight:700;flex:1;letter-spacing:-.3px}
+.tb-btn{width:32px;height:32px;border-radius:50%;background:var(--card);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:14px;transition:background .13s}
+.tb-btn:hover{background:var(--card2)}
+.ndot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--red);border:1.5px solid var(--surf)}
+.screens{flex:1;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;overflow-y:auto;padding:20px;display:none}
+.screen.active{display:block;animation:scr .2s ease}
+@keyframes scr{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* UI ATOMS */
+.card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--r);padding:18px}
+.csm{background:var(--card);border:0.5px solid var(--border);border-radius:var(--rsm);padding:13px 15px}
+.chov{transition:all .13s;cursor:pointer}
+.chov:hover{border-color:var(--border2);background:var(--card2)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-t{font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:-.2px}
+.lnk{font-size:11px;color:var(--muted);cursor:pointer}
+.lnk:hover{color:var(--text)}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;border:0.5px solid;font-weight:500;white-space:nowrap}
+.cg{background:rgba(34,197,94,.08);color:var(--green);border-color:rgba(34,197,94,.22)}
+.ca{background:rgba(245,158,11,.08);color:var(--accent);border-color:rgba(245,158,11,.22)}
+.cr{background:rgba(239,68,68,.08);color:var(--red);border-color:rgba(239,68,68,.22)}
+.cb{background:rgba(59,130,246,.08);color:var(--blue);border-color:rgba(59,130,246,.22)}
+.cp{background:rgba(167,139,250,.08);color:var(--purple);border-color:rgba(167,139,250,.22)}
+.cmt{background:rgba(139,138,150,.08);color:var(--muted);border-color:rgba(139,138,150,.22)}
+.divider{height:0.5px;background:var(--border);margin:13px 0}
+.sc{background:var(--card);border:0.5px solid var(--border);border-radius:var(--r);padding:17px 19px}
+.sv{font-family:var(--fh);font-size:23px;font-weight:800;line-height:1;margin-bottom:3px}
+.sl{font-size:11px;color:var(--muted)}
+.ss{font-size:11px;color:var(--green);margin-top:3px}
+.prog-t{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-f{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),#f97316);transition:width .4s}
+.tl{display:flex;gap:12px;padding-bottom:15px;position:relative}
+.tl:last-child{padding-bottom:0}
+.tl-d{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;z-index:1}
+.tl-l{position:absolute;left:4px;top:13px;bottom:0;width:1px;background:var(--border)}
+.tl:last-child .tl-l{display:none}
+
+/* EMPTY STATES */
+.empty{text-align:center;padding:48px 18px;color:var(--muted)}
+.e-ico{font-size:36px;margin-bottom:10px;opacity:.5}
+.e-title{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px}
+.e-txt{font-size:12px;line-height:1.6;margin-bottom:18px}
+
+/* SERVICE TILES */
+.svc-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.svc-t{background:var(--card);border:0.5px solid var(--border);border-radius:var(--r);padding:18px 14px;cursor:pointer;transition:all .18s;text-align:center}
+.svc-t:hover{border-color:rgba(245,158,11,.4);transform:translateY(-2px);background:rgba(245,158,11,.04)}
+.svc-t.on{border-color:var(--accent);background:var(--ag)}
+.svc-ico{font-size:32px;margin-bottom:9px}
+.svc-name{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:3px}
+.svc-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* STEP BAR */
+.step-bar{display:flex;align-items:center;margin-bottom:20px}
+.stp{display:flex;align-items:center;gap:5px}
+.stp-n{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:0.5px solid;transition:all .2s;flex-shrink:0}
+.stp-n.dn{background:var(--green);border-color:var(--green);color:white}
+.stp-n.cr{background:var(--accent);border-color:var(--accent);color:#0b0b0e}
+.stp-n.pd{background:transparent;border-color:var(--border);color:var(--muted)}
+.stp-l{font-size:10px;color:var(--muted);white-space:nowrap}
+.stp-l.cr{color:var(--text)}
+.stp-line{flex:1;height:0.5px;background:var(--border);min-width:8px;margin:0 2px;transition:background .2s}
+.stp-line.dn{background:var(--green)}
+
+/* AI BOX */
+.ai-box{background:rgba(245,158,11,.07);border:0.5px solid rgba(245,158,11,.26);border-radius:var(--rsm);padding:15px;margin:13px 0;animation:scr .28s ease}
+.ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.ai-price{font-family:var(--fh);font-size:24px;font-weight:800;color:var(--accent);line-height:1}
+.ai-brk{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:11px}
+.ai-bi{background:rgba(0,0,0,.2);border-radius:var(--rxs);padding:7px;text-align:center}
+.ai-bv{font-size:12px;font-weight:600}
+.ai-bl{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* TECH CARDS */
+.tc{background:var(--surf);border:0.5px solid var(--border);border-radius:var(--rsm);padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .14s;margin-bottom:8px}
+.tc:hover{border-color:var(--border2);background:var(--card)}
+.tc.on{border-color:var(--accent);background:var(--ag)}
+.t-ava{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;color:white}
+.t-nm{font-size:13px;font-weight:500;margin-bottom:2px}
+.t-mt{font-size:11px;color:var(--muted)}
+.t-et{font-size:11px;color:var(--green);margin-top:2px;font-weight:500}
+.stars{color:var(--accent);font-size:11px}
+
+/* PAYMENT */
+.pay-r{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surf);border:0.5px solid var(--border);border-radius:var(--rsm);cursor:pointer;margin-bottom:8px;transition:all .14s}
+.pay-r:hover{border-color:var(--border2);background:var(--card)}
+.pay-r.on{border-color:var(--accent);background:var(--ag)}
+.pay-ico{font-size:19px;width:30px;text-align:center}
+.radio{width:16px;height:16px;border-radius:50%;border:0.5px solid var(--border);margin-left:auto;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .14s}
+.radio.on{border-color:var(--accent);background:var(--accent)}
+.radio.on::after{content:'';width:6px;height:6px;border-radius:50%;background:#0b0b0e}
+
+/* CONFIRM */
+.cnf{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(245,158,11,.05));border:0.5px solid rgba(34,197,94,.22);border-radius:var(--r);padding:24px;text-align:center}
+.cnf-ico{width:60px;height:60px;border-radius:50%;background:rgba(34,197,94,.13);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 13px}
+.cnf-t{font-family:var(--fh);font-size:19px;font-weight:800;margin-bottom:5px}
+.dr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px}
+.dr:last-child{border-bottom:none}
+
+/* TRACK */
+.trk{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(59,130,246,.04));border:0.5px solid rgba(34,197,94,.22);border-radius:var(--r);padding:17px;margin-bottom:13px}
+.trk-steps{display:flex;justify-content:space-between;position:relative;margin:15px 0 7px}
+.trk-steps::before{content:'';position:absolute;top:10px;left:10%;width:80%;height:1px;background:var(--border)}
+.ts{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1}
+.ts-d{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;border:0.5px solid}
+.ts-d.dn{background:var(--green);border-color:var(--green);color:white}
+.ts-d.cr{background:var(--accent);border-color:var(--accent);color:#0b0b0e;box-shadow:0 0 0 3px rgba(245,158,11,.17)}
+.ts-d.pd{background:var(--card);border-color:var(--border);color:var(--muted)}
+.ts-l{font-size:10px;color:var(--muted);text-align:center;max-width:50px}
+
+/* RATING */
+.star-row{display:flex;gap:7px;margin:10px 0}
+.star{font-size:24px;cursor:pointer;color:var(--border2);transition:all .13s;user-select:none}
+.star.on{color:var(--accent)}
+.star:hover{transform:scale(1.1)}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;border:0.5px solid var(--border);cursor:pointer;color:var(--muted);transition:all .13s}
+.tag:hover,.tag.on{border-color:var(--accent);color:var(--accent);background:var(--ag)}
+
+/* COMMISSION TABLE */
+.ctbl{width:100%;border-collapse:collapse}
+.ctbl th,.ctbl td{padding:9px 12px;text-align:left;font-size:12px;border-bottom:0.5px solid var(--border)}
+.ctbl th{color:var(--muted);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.6px}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr.hl{background:rgba(34,197,94,.05)}
+.eb-t{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:5px}
+.eb-f{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),#f97316)}
+
+/* ONBOARD */
+.obs{display:flex;align-items:center;gap:12px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--rsm);padding:12px 14px;margin-bottom:8px;transition:border .17s}
+.obs.dn{border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.03)}
+.obs.cr{border-color:rgba(245,158,11,.3)}
+.obi{width:27px;height:27px;min-width:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:0.5px solid;flex-shrink:0}
+.obi.dn{background:var(--green);border-color:var(--green);color:white}
+.obi.cr{background:var(--ag);border-color:var(--accent);color:var(--accent)}
+.obi.pd{background:transparent;border-color:var(--border);color:var(--muted)}
+
+/* NOTIF */
+.ni{display:flex;gap:11px;padding:11px 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:opacity .13s}
+.ni:hover{opacity:.8}
+.ni:last-child{border-bottom:none}
+.ni-ico{width:34px;height:34px;min-width:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+
+/* MAP */
+.map-z{background:var(--surf);border-radius:var(--rsm);height:110px;display:flex;align-items:center;justify-content:center;border:0.5px solid var(--border);margin-bottom:12px;position:relative;overflow:hidden}
+
+/* TABS */
+.tab-row{display:flex;gap:3px;background:var(--surf);padding:3px;border-radius:var(--rsm);margin-bottom:15px;border:0.5px solid var(--border)}
+.tab{flex:1;padding:6px;text-align:center;font-size:11px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .13s;border:none;background:none;font-family:var(--fb)}
+.tab.active{background:var(--card);color:var(--text);font-weight:500}
+
+/* UPLOAD */
+.upz{border:0.5px dashed var(--border2);border-radius:var(--rsm);padding:18px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;transition:all .14s}
+.upz:hover{border-color:var(--accent);background:var(--ag);color:var(--accent)}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- ▓▓ SPLASH ▓▓ -->
+<div class="page active" id="pg-splash" style="align-items:center;justify-content:center">
+  <div class="auth-bg"></div>
+  <div style="text-align:center;position:relative;z-index:1;animation:scr .5s ease;padding:0 24px">
+    <div style="width:76px;height:76px;border-radius:20px;background:linear-gradient(135deg,var(--accent),#f97316);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 18px;box-shadow:0 0 56px rgba(245,158,11,.28)">🔧</div>
+    <div style="font-family:var(--fh);font-size:40px;font-weight:800;color:var(--accent);letter-spacing:-2px;margin-bottom:5px">Fixify</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:48px">Home repairs, done right.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;width:260px;margin:0 auto">
+      <button class="btn btn-p btn-lg btn-full" onclick="goTo('pg-signup')">Get Started — It's Free</button>
+      <button class="btn btn-s btn-lg btn-full" onclick="goTo('pg-login')">Sign In</button>
+    </div>
+    <div style="margin-top:24px;font-size:11px;color:var(--muted2)">Trusted by 50,000+ homeowners · Verified technicians only</div>
+  </div>
+</div>
+
+<!-- ▓▓ SIGN UP ▓▓ -->
+<div class="page" id="pg-signup" style="background:var(--bg)">
+  <div class="auth-bg"></div>
+  <div class="auth-scroll">
+    <div class="auth-logo">
+      <div class="auth-wordmark">Fixify</div>
+      <div class="auth-sub">Create your free account</div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-title">Join Fixify</div>
+      <div class="auth-hint">Are you looking to book a service, or offer your skills as a technician?</div>
+
+      <div style="margin-bottom:18px">
+        <div class="il">I want to</div>
+        <div class="role-toggle">
+          <div class="role-opt on" id="ro-cust" onclick="setSignupRole('customer')">
+            <div class="role-opt-ico">🏠</div>
+            <div class="role-opt-name">Book Services</div>
+            <div class="role-opt-sub">I'm a customer</div>
+          </div>
+          <div class="role-opt" id="ro-tech" onclick="setSignupRole('technician')">
+            <div class="role-opt-ico">🔧</div>
+            <div class="role-opt-name">Offer Services</div>
+            <div class="role-opt-sub">I'm a technician</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inp-row">
+        <div class="iw"><label class="il">First Name</label><input class="inp" id="su-fn" type="text" placeholder="Rahul"></div>
+        <div class="iw"><label class="il">Last Name</label><input class="inp" id="su-ln" type="text" placeholder="Kumar"></div>
+      </div>
+      <div class="iw"><label class="il">Email Address</label><input class="inp" id="su-em" type="email" placeholder="rahul@email.com"></div>
+      <div class="iw">
+        <label class="il">Phone Number</label>
+        <div style="display:flex;gap:7px">
+          <div style="background:var(--card);border:0.5px solid var(--border);border-radius:var(--rxs);padding:11px 11px;font-size:13px;color:var(--muted);white-space:nowrap">+91</div>
+          <input class="inp" id="su-ph" type="tel" placeholder="98765 43210" style="flex:1">
+        </div>
+      </div>
+      <div class="iw">
+        <label class="il">City</label>
+        <select class="inp" id="su-city">
+          <option value="">Select your city</option>
+          <option>Bengaluru</option><option>Mumbai</option><option>Delhi</option>
+          <option>Hyderabad</option><option>Chennai</option><option>Pune</option>
+          <option>Kolkata</option><option>Ahmedabad</option><option>Jaipur</option><option>Kochi</option>
+        </select>
+      </div>
+
+      <!-- Technician extras -->
+      <div id="tech-ext" style="display:none">
+        <div class="divider"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:11px;text-transform:uppercase;letter-spacing:.6px">Technician Details</div>
+        <div class="iw">
+          <label class="il">Specialisation</label>
+          <select class="inp" id="su-spec">
+            <option value="">Select specialisation</option>
+            <option>Plumbing</option><option>Electrical</option><option>Both (Plumbing & Electrical)</option>
+          </select>
+        </div>
+        <div class="iw">
+          <label class="il">Years of Experience</label>
+          <select class="inp" id="su-exp">
+            <option>Less than 1 year</option><option>1–3 years</option><option>3–5 years</option><option>5–10 years</option><option>10+ years</option>
+          </select>
+        </div>
+        <div class="iw">
+          <label class="il">Government ID Type</label>
+          <select class="inp" id="su-idt">
+            <option>Aadhaar Card</option><option>PAN Card</option><option>Driving Licence</option><option>Voter ID</option>
+          </select>
+        </div>
+        <div class="iw"><label class="il">ID Number</label><input class="inp" id="su-idn" type="text" placeholder="XXXX XXXX XXXX"></div>
+        <div style="background:rgba(245,158,11,.07);border:0.5px solid rgba(245,158,11,.18);border-radius:var(--rxs);padding:9px 11px;font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:12px">
+          🔒 Your ID is verified once for customer safety. You operate as an independent partner — choose your own hours & accept jobs freely. Compliant with the Code on Wages, 2019.
+        </div>
+      </div>
+
+      <div class="iw" style="margin-top:3px"><label class="il">Create Password</label><input class="inp" id="su-pw" type="password" placeholder="Minimum 8 characters"></div>
+
+      <button class="btn btn-p btn-full btn-lg" style="margin-top:4px" onclick="doSignup()">Create Account →</button>
+      <div class="terms">By signing up you agree to Fixify's <span style="color:var(--accent);cursor:pointer">Terms</span> &amp; <span style="color:var(--accent);cursor:pointer">Privacy Policy</span></div>
+      <div class="div-or">or</div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">Already have an account? <button class="lnk-btn" onclick="goTo('pg-login')">Sign in</button></div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ▓▓ LOGIN ▓▓ -->
+<div class="page" id="pg-login" style="background:var(--bg)">
+  <div class="auth-bg"></div>
+  <div class="auth-scroll">
+    <div class="auth-logo">
+      <div class="auth-wordmark">Fixify</div>
+      <div class="auth-sub">Welcome back</div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-title">Sign In</div>
+      <div class="auth-hint">Enter your email/phone and password to continue.</div>
+      <div class="iw"><label class="il">Email or Phone</label><input class="inp" id="li-em" type="text" placeholder="rahul@email.com"></div>
+      <div class="iw">
+        <label class="il">Password</label>
+        <input class="inp" id="li-pw" type="password" placeholder="Your password">
+        <div style="text-align:right;margin-top:5px"><button class="lnk-btn">Forgot password?</button></div>
+      </div>
+      <button class="btn btn-p btn-full btn-lg" onclick="doLogin()">Sign In →</button>
+      <div style="margin-top:14px;background:rgba(245,158,11,.06);border:0.5px solid rgba(245,158,11,.18);border-radius:var(--rxs);padding:10px 11px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:7px">Quick demo — tap to try:</div>
+        <div style="display:flex;gap:7px">
+          <button class="btn btn-s btn-sm" style="flex:1" onclick="demoFill('customer')">🏠 Customer demo</button>
+          <button class="btn btn-s btn-sm" style="flex:1" onclick="demoFill('technician')">🔧 Technician demo</button>
+        </div>
+      </div>
+      <div class="div-or">or</div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">No account? <button class="lnk-btn" onclick="goTo('pg-signup')">Sign up free</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ▓▓ MAIN APP ▓▓ -->
+<div class="page" id="pg-app">
+  <div class="app-shell">
+    <div class="sidebar" id="sidebar">
+      <div class="brand-bar" onclick="toggleSidebar()">
+        <div class="brand-mark">🔧</div>
+        <div class="brand-txt">Fixify</div>
+      </div>
+      <div class="sidebar-body" id="sidebar-body"></div>
+      <div class="sidebar-footer">
+        <div class="user-pill" id="upill" onclick="nav('profile')">
+          <div class="pill-ava" id="pill-ava">RK</div>
+          <div class="pill-meta">
+            <div class="pill-name" id="pill-name">User</div>
+            <div class="pill-role" id="pill-role">Customer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-area">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">Home</div>
+        <div class="tb-btn" onclick="nav('notif')">🔔<div class="ndot" id="ndot"></div></div>
+        <div class="tb-btn" id="ava-tb" style="font-size:11px;font-weight:700;color:white;border:none" onclick="nav('profile')">RK</div>
+      </div>
+      <div class="screens">
+        <div id="sc-home"     class="screen active"></div>
+        <div id="sc-book"     class="screen"><div class="step-bar" id="step-bar"></div><div id="book-c"></div></div>
+        <div id="sc-bookings" class="screen"><div class="tab-row"><button class="tab active" onclick="filterBk('all',this)">All</button><button class="tab" onclick="filterBk('active',this)">Active</button><button class="tab" onclick="filterBk('done',this)">Completed</button></div><div id="bk-list"></div></div>
+        <div id="sc-track"    class="screen"><div id="track-c"></div></div>
+        <div id="sc-rate"     class="screen"><div class="card" style="max-width:480px;margin:0 auto" id="rate-c"></div></div>
+        <div id="sc-tdash"    class="screen"><div id="tdash-c"></div></div>
+        <div id="sc-tjobs"    class="screen"><div id="tjobs-c"></div></div>
+        <div id="sc-earn"     class="screen"><div id="earn-c"></div></div>
+        <div id="sc-onboard"  class="screen"><div id="ob-c"></div></div>
+        <div id="sc-notif"    class="screen"><div class="card" id="notif-c"></div></div>
+        <div id="sc-profile"  class="screen"><div id="profile-c"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script>
+// ══ STATE ══
+const S = {
+  user: null,
+  role: 'customer',
+  screen: 'home',
+  bookStep: 1,
+  bk: { svc:null, issue:null, sev:'medium', tech:null, pay:null },
+  rating: 0,
+  signupRole: 'customer',
+  bookings: [],
+  slim: false,
+  _midFlow: false,
+  _activeBookingId: null,
+};
+
+// ══ STORAGE HELPERS ══
+function saveAccounts() {
+  try { localStorage.setItem('fixify_accounts', JSON.stringify(window._accounts||{})); } catch(e){}
+}
+function loadAccounts() {
+  try { window._accounts = JSON.parse(localStorage.getItem('fixify_accounts')||'{}'); }
+  catch(e) { window._accounts = {}; }
+}
+function saveSession(email) {
+  try { localStorage.setItem('fixify_session', email||''); } catch(e){}
+}
+function clearSession() {
+  try { localStorage.removeItem('fixify_session'); } catch(e){}
+}
+function persistBookings() {
+  if (!S.user || !window._accounts) return;
+  const key = S.user.email.toLowerCase();
+  if (window._accounts[key]) { window._accounts[key].bookings = S.bookings; saveAccounts(); }
+}
+
+// ══ PAGE ROUTING ══
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ══ AUTH ══
+function setSignupRole(r) {
+  S.signupRole = r;
+  document.getElementById('ro-cust').classList.toggle('on', r === 'customer');
+  document.getElementById('ro-tech').classList.toggle('on', r === 'technician');
+  document.getElementById('tech-ext').style.display = r === 'technician' ? 'block' : 'none';
+}
+function doSignup() {
+  const fn = document.getElementById('su-fn').value.trim();
+  const ln = document.getElementById('su-ln').value.trim();
+  const em = document.getElementById('su-em').value.trim();
+  const ph = document.getElementById('su-ph').value.trim();
+  const ct = document.getElementById('su-city').value;
+  const pw = document.getElementById('su-pw').value;
+  if (!fn||!ln||!em||!ph||!ct||!pw) { alert('Please fill in all required fields.'); return; }
+  loadAccounts();
+  const key = em.toLowerCase();
+  if (window._accounts[key]) { alert('An account with this email already exists. Please sign in instead.'); goTo('pg-login'); return; }
+  const ini = (fn[0]+ln[0]).toUpperCase();
+  const userObj = { name:fn+' '+ln, email:em, phone:ph, city:ct, role:S.signupRole, initials:ini };
+  if (S.signupRole === 'technician') {
+    userObj.spec = document.getElementById('su-spec').value || 'Plumbing';
+    userObj.exp  = document.getElementById('su-exp').value;
+  }
+  window._accounts[key] = { user:userObj, password:pw, bookings:[] };
+  saveAccounts();
+  S.user = userObj; S.role = S.signupRole; S.bookings = [];
+  saveSession(key);
+  launch();
+}
+function demoFill(r) {
+  document.getElementById('li-em').value = r==='customer' ? 'rahul@demo.com' : 'arjun@demo.com';
+  document.getElementById('li-pw').value = 'demo1234';
+}
+function doLogin() {
+  const em = document.getElementById('li-em').value.trim();
+  const pw = document.getElementById('li-pw').value.trim();
+  if (!em||!pw) { alert('Please enter your credentials.'); return; }
+  loadAccounts();
+  const key = em.toLowerCase();
+  if (window._accounts[key]) {
+    const acct = window._accounts[key];
+    if (acct.password !== pw) { alert('Incorrect password. Please try again.'); return; }
+    S.user = acct.user; S.role = acct.user.role; S.bookings = acct.bookings || [];
+    saveSession(key); launch(); return;
+  }
+  // Demo fallback (arjun = tech demo, anything else = customer demo)
+  if (em.toLowerCase().includes('arjun') || em.toLowerCase().includes('tech')) {
+    S.user = { name:'Arjun Kumar', email:em, phone:'8765432109', city:'Bengaluru', role:'technician', spec:'Plumbing', initials:'AK' };
+    S.role = 'technician';
+  } else {
+    const nm = em.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    S.user = { name:nm, email:em, phone:'9876543210', city:'Bengaluru', role:'customer', initials:em.slice(0,2).toUpperCase() };
+    S.role = 'customer';
+  }
+  S.bookings = [];
+  saveSession(key);
+  launch();
+}
+function launch() {
+  buildSidebar(); updateTopbar();
+  nav(S.role==='customer' ? 'home' : 'tdash');
+  goTo('pg-app');
+}
+function signOut() {
+  if (!confirm('Sign out of Fixify?')) return;
+  persistBookings();
+  clearSession();
+  Object.assign(S, { user:null, bookings:[], bk:{svc:null,issue:null,sev:'medium',tech:null,pay:null}, _activeBookingId:null, _midFlow:false });
+  goTo('pg-splash');
+}
+
+// ══ AUTO-LOGIN on load ══
+window.addEventListener('load', function() {
+  loadAccounts();
+  try {
+    const key = localStorage.getItem('fixify_session')||'';
+    if (key && window._accounts[key]) {
+      const acct = window._accounts[key];
+      S.user = acct.user; S.role = acct.user.role; S.bookings = acct.bookings || [];
+      launch();
+    }
+  } catch(e) {}
+});
+
+// ══ SIDEBAR ══
+const NAV_C = [
+  { s:'Booking', items:[{id:'home',i:'🏠',l:'Home'},{id:'book',i:'➕',l:'Book a Service'},{id:'bookings',i:'📋',l:'My Bookings'},{id:'track',i:'📍',l:'Track Job'}] },
+  { s:'Account', items:[{id:'rate',i:'⭐',l:'Rate Service'},{id:'notif',i:'🔔',l:'Notifications'},{id:'profile',i:'👤',l:'Profile'}] },
+];
+const NAV_T = [
+  { s:'Jobs', items:[{id:'tdash',i:'📊',l:'Dashboard'},{id:'tjobs',i:'📋',l:'My Jobs'},{id:'earn',i:'💰',l:'Earnings'}] },
+  { s:'Setup', items:[{id:'onboard',i:'✅',l:'Onboarding'},{id:'notif',i:'🔔',l:'Notifications'},{id:'profile',i:'👤',l:'Profile'}] },
+];
+function buildSidebar() {
+  const body = document.getElementById('sidebar-body');
+  body.innerHTML = '';
+  const cfg = S.role === 'customer' ? NAV_C : NAV_T;
+  cfg.forEach(sec => {
+    const d = document.createElement('div');
+    d.innerHTML = `<div class="nav-lbl">${sec.s}</div>`;
+    sec.items.forEach(item => {
+      const b = document.createElement('button');
+      b.className = 'nav-item' + (S.screen===item.id?' active':'');
+      b.id = 'nav-'+item.id;
+      b.innerHTML = `<span class="nav-icon">${item.i}</span><span class="nav-txt">${item.l}</span>`;
+      b.onclick = () => nav(item.id);
+      d.appendChild(b);
+    });
+    body.appendChild(d);
+  });
+  const u = S.user, col = S.role==='technician'?'linear-gradient(135deg,#f59e0b,#f97316)':'linear-gradient(135deg,#a78bfa,#3b82f6)';
+  document.getElementById('pill-ava').textContent = u.initials;
+  document.getElementById('pill-ava').style.background = col;
+  document.getElementById('pill-name').textContent = u.name;
+  document.getElementById('pill-role').textContent = S.role==='technician'?(u.spec||'Technician')+' · '+u.city:'Customer · '+u.city;
+}
+function updateTopbar() {
+  const u = S.user, col = S.role==='technician'?'linear-gradient(135deg,#f59e0b,#f97316)':'linear-gradient(135deg,#a78bfa,#3b82f6)';
+  const b = document.getElementById('ava-tb');
+  b.textContent = u.initials; b.style.background = col;
+}
+function toggleSidebar() {
+  S.slim = !S.slim;
+  document.getElementById('sidebar').classList.toggle('slim', S.slim);
+}
+
+// ══ NAVIGATION ══
+const TITLES = {home:'Home',book:'Book a Service',bookings:'My Bookings',track:'Track Job',rate:'Rate Service',notif:'Notifications',profile:'Profile',tdash:'Dashboard',tjobs:'My Jobs',earn:'Earnings',onboard:'Onboarding'};
+const RENDERERS = { home:rHome, book:rBook, bookings:rBookings, track:rTrack, rate:rRate, notif:rNotif, profile:rProfile, tdash:rTDash, tjobs:rTJobs, earn:rEarn, onboard:rOnboard };
+
+function nav(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const sc=document.getElementById('sc-'+id);
+  if(sc) sc.classList.add('active');
+  const ni=document.getElementById('nav-'+id);
+  if(ni) ni.classList.add('active');
+  document.getElementById('topbar-title').textContent = TITLES[id]||id;
+  S.screen = id;
+  // Only reset booking when arriving fresh from sidebar (not from startBook or mid-flow)
+  if(id==='book' && !S._midFlow) {
+    S.bk={svc:null,issue:null,sev:'medium',tech:null,pay:null};
+    S.bookStep=1;
+    S._activeBookingId=null;
+  }
+  S._midFlow = false;
+  if(RENDERERS[id]) RENDERERS[id]();
+}
+
+// ══ HOME ══
+function rHome() {
+  const u = S.user, fn = u.name.split(' ')[0];
+  const bkHTML = S.bookings.length === 0
+    ? `<div class="empty"><div class="e-ico">📋</div><div class="e-title">No bookings yet</div><div class="e-txt">Your bookings will appear here once you make your first service request.</div></div>`
+    : S.bookings.slice(-2).reverse().map(b => bkCard(b)).join('');
+  document.getElementById('sc-home').innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(167,139,250,.06));border:0.5px solid rgba(245,158,11,.17);border-radius:var(--r);padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+      <div style="font-size:34px">🏠</div>
+      <div style="flex:1"><div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:2px">Hi ${fn} 👋</div><div style="font-size:12px;color:var(--muted)">${u.city} · <span style="color:var(--green)">● Technicians available</span></div></div>
+      <span class="chip cg">✓ Verified</span>
+    </div>
+    <div class="sec-row"><div class="sec-t">What needs fixing?</div></div>
+    <div class="svc-g">
+      <div class="svc-t" onclick="startBook('plumbing')"><div class="svc-ico">🔧</div><div class="svc-name">Plumbing</div><div class="svc-desc">Leaks, clogs, pipes, taps, water heater</div></div>
+      <div class="svc-t" onclick="startBook('electrical')"><div class="svc-ico">⚡</div><div class="svc-name">Electrical</div><div class="svc-desc">Wiring, MCB, fans, switches, sockets</div></div>
+    </div>
+    <div class="sec-row"><div class="sec-t">Recent Bookings</div><span class="lnk" onclick="nav('bookings')">View all →</span></div>
+    ${bkHTML}
+    <div class="sec-row" style="margin-top:6px"><div class="sec-t">Offers for you</div></div>
+    <div class="card" style="background:linear-gradient(135deg,rgba(167,139,250,.09),rgba(59,130,246,.06));border-color:rgba(167,139,250,.25)">
+      <div style="font-size:10px;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">WELCOME OFFER</div>
+      <div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:4px">₹100 off your first booking!</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Use code <strong style="color:var(--text)">FIXNEW</strong> · Valid for new users</div>
+      <button class="btn btn-p btn-sm" onclick="startBook('plumbing')">Book Now</button>
+    </div>
+  `;
+}
+function bkCard(b) {
+  const sm = {confirmed:['ca','Confirmed'],completed:['cg','Completed'],rated:['cg','Rated ★']};
+  const [c,l] = sm[b.status]||['cmt','—'];
+  return `<div class="csm chov" style="display:flex;align-items:center;gap:12px;margin-bottom:8px" onclick="nav('track')">
+    <div style="width:38px;height:38px;border-radius:var(--rxs);background:${b.svc==='plumbing'?'rgba(20,184,166,.12)':'rgba(59,130,246,.12)'};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${b.svc==='plumbing'?'🔧':'⚡'}</div>
+    <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:1px">${b.name}</div><div style="font-size:11px;color:var(--muted)">${b.tech} · ${b.date}</div></div>
+    <div style="text-align:right;flex-shrink:0"><div style="font-size:13px;font-weight:600;margin-bottom:3px">${b.amt}</div><span class="chip ${c}">${l}</span></div>
+  </div>`;
+}
+
+// ══ BOOK FLOW ══
+function startBook(svc) {
+  S.bk = { svc, issue:null, sev:'medium', tech:null, pay:null };
+  S.bookStep = 1;
+  S._activeBookingId = null;
+  S._midFlow = true;
+  nav('book');
+}
+function rStepBar() {
+  const steps = ['Service','Details','Technician','Payment','Confirm'];
+  document.getElementById('step-bar').innerHTML = steps.map((l,i) => {
+    const n=i+1, c=n<S.bookStep?'dn':n===S.bookStep?'cr':'pd';
+    return `<div class="stp"><div class="stp-n ${c}">${n<S.bookStep?'✓':n}</div><span class="stp-l ${c==='cr'?'cr':''}">${l}</span></div>${n<5?`<div class="stp-line ${n<S.bookStep?'dn':''}"></div>`:''}`;
+  }).join('');
+}
+function rBook() {
+  rStepBar();
+  const c = document.getElementById('book-c');
+  const bk = S.bk;
+  if (S.bookStep === 1) {
+    c.innerHTML = `
+      <div class="sec-t" style="margin-bottom:14px">What service do you need?</div>
+      <div class="svc-g">
+        <div class="svc-t ${bk.svc==='plumbing'?'on':''}" id="stp" onclick="pickSvc('plumbing')"><div class="svc-ico">🔧</div><div class="svc-name">Plumbing</div><div class="svc-desc">Leaks, clogs, pipes, taps, drainage, water heater</div></div>
+        <div class="svc-t ${bk.svc==='electrical'?'on':''}" id="ste" onclick="pickSvc('electrical')"><div class="svc-ico">⚡</div><div class="svc-name">Electrical</div><div class="svc-desc">Wiring, MCB/fuse, fans, switches, sockets, fixtures</div></div>
+      </div>
+      <button class="btn btn-p btn-lg" id="s1b" onclick="nextStep()" ${bk.svc?'':'disabled'}>Continue →</button>
+    `;
+  } else if (S.bookStep === 2) {
+    const opts = bk.svc==='plumbing'
+      ? ['Leaking pipe','Clogged drain or sink','Tap / faucet repair','Water heater issue','Bathroom fixture','Low water pressure','Other']
+      : ['MCB / fuse tripping','Fan installation or repair','Socket or switch issue','Wiring fault','Light fixture','Room power outage','Other'];
+    c.innerHTML = `
+      <div class="sec-t" style="margin-bottom:14px">Describe the issue</div>
+      <div class="iw"><label class="il">Issue type</label><select class="inp" id="iss-t" onchange="recalcAI()"><option value="">Select issue type</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>
+      <div class="iw"><label class="il">Describe in detail</label><textarea class="inp" rows="3" id="iss-d" placeholder="What's happening, when did it start, any unusual signs..."></textarea></div>
+      <div class="iw"><label class="il">When did this start?</label><select class="inp"><option>Just now</option><option>Today</option><option>Yesterday</option><option>A few days ago</option><option>Over a week</option></select></div>
+      <div class="iw"><label class="il">Severity</label><select class="inp" id="iss-s" onchange="recalcAI()"><option value="low">Low — Minor inconvenience</option><option value="medium" selected>Medium — Needs fixing soon</option><option value="high">High — Urgent</option></select></div>
+      <div class="iw"><label class="il">Upload photo (optional)</label><div class="upz" id="upz" onclick="fakeUp()">📷  Tap to upload a photo of the issue</div></div>
+      <div class="ai-box">
+        <div class="ai-hd"><span style="font-size:15px">🤖</span><span style="font-size:13px;font-weight:600;color:var(--accent)">AI Cost Estimate</span><span class="chip cp" style="margin-left:auto;font-size:10px">Fixify AI</span></div>
+        <div class="ai-price" id="ai-p">₹600 – ₹950</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="ai-n">Based on issue type and complexity</div>
+        <div class="ai-brk"><div class="ai-bi"><div class="ai-bv" id="ai-t">~1.5 hrs</div><div class="ai-bl">Est. time</div></div><div class="ai-bi"><div class="ai-bv" id="ai-l">₹400</div><div class="ai-bl">Labour</div></div><div class="ai-bi"><div class="ai-bv" id="ai-pt">₹200–550</div><div class="ai-bl">Parts</div></div></div>
+        <div style="font-size:10px;color:var(--muted2);margin-top:9px">Final price confirmed after on-site inspection</div>
+      </div>
+      <div style="display:flex;gap:9px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" onclick="nextStep()">Continue →</button></div>
+    `;
+  } else if (S.bookStep === 3) {
+    const techs = [
+      {id:'t1',name:'Arjun Kumar',ini:'AK',bg:'linear-gradient(135deg,#f59e0b,#f97316)',r:'4.9',j:'238',d:'2.4 km',eta:'25 min',cm:'15%',cc:'cg',sp:bk.svc==='plumbing'?'Master Plumber':'Licensed Electrician'},
+      {id:'t2',name:'Suresh Babu',ini:'SB',bg:'linear-gradient(135deg,#3b82f6,#a78bfa)',r:'4.6',j:'142',d:'3.1 km',eta:'35 min',cm:'15%',cc:'cg',sp:bk.svc==='plumbing'?'Plumber':'Electrician'},
+      {id:'t3',name:'Mohan Das',ini:'MD',bg:'linear-gradient(135deg,#22c55e,#14b8a6)',r:'4.2',j:'87',d:'4.8 km',eta:'52 min',cm:'20%',cc:'cb',sp:bk.svc==='plumbing'?'Plumbing Tech':'Electrical Tech'},
+    ];
+    c.innerHTML = `
+      <div class="sec-row"><div class="sec-t">Choose a Technician</div><span style="font-size:11px;color:var(--muted)">3 nearby · All ID-verified</span></div>
+      ${techs.map(t=>`<div class="tc ${bk.tech===t.id?'on':''}" id="tc-${t.id}" onclick="pickTech('${t.id}')"><div class="t-ava" style="background:${t.bg}">${t.ini}</div><div style="flex:1;min-width:0"><div class="t-nm">${t.name}</div><div class="t-mt"><span class="stars">★</span> ${t.r} · ${t.j} jobs · ${t.d} · ${t.sp}</div><div class="t-et">ETA ~${t.eta}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="chip ${t.cc}" style="font-size:10px">${t.cm} comm.</span>${bk.tech===t.id?'<span style="color:var(--accent);font-size:15px">✓</span>':''}</div></div>`).join('')}
+      <div style="display:flex;gap:9px;margin-top:4px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" id="s3b" onclick="nextStep()" ${bk.tech?'':'disabled'}>Continue →</button></div>
+    `;
+  } else if (S.bookStep === 4) {
+    const ms=[{id:'upi',ico:'📲',l:'UPI Payment',s:'Google Pay, PhonePe, Paytm, BHIM'},{id:'card',ico:'💳',l:'Credit / Debit Card',s:'Visa, Mastercard, RuPay'},{id:'nb',ico:'🏦',l:'Net Banking',s:'All major Indian banks'},{id:'cash',ico:'💵',l:'Cash on Service',s:'Pay directly to technician'}];
+    c.innerHTML = `
+      <div class="sec-t" style="margin-bottom:14px">Payment Method</div>
+      <div class="map-z" style="margin-bottom:12px"><svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06" viewBox="0 0 400 110"><defs><pattern id="gp" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="white" stroke-width=".4"/></pattern></defs><rect width="400" height="110" fill="url(#gp)"/></svg><div style="position:relative;z-index:1;text-align:center"><div style="font-size:24px;margin-bottom:3px">📍</div><div style="font-size:11px;color:var(--muted)">${S.user.city}</div></div></div>
+      <div class="csm" style="margin-bottom:12px"><div class="dr"><span style="color:var(--muted)">Service</span><span style="text-transform:capitalize">${bk.svc}</span></div><div class="dr"><span style="color:var(--muted)">Technician</span><span>${techN(bk.tech)}</span></div><div class="dr"><span style="color:var(--muted)">AI Estimate</span><span style="color:var(--accent);font-weight:600">${aiRange()}</span></div></div>
+      ${ms.map(m=>`<div class="pay-r ${bk.pay===m.id?'on':''}" id="pm-${m.id}" onclick="pickPay('${m.id}')"><span class="pay-ico">${m.ico}</span><div><div style="font-size:13px;font-weight:500">${m.l}</div><div style="font-size:11px;color:var(--muted)">${m.s}</div></div><div class="radio ${bk.pay===m.id?'on':''}"></div></div>`).join('')}
+      <div style="display:flex;gap:9px;margin-top:5px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" id="s4b" onclick="nextStep()" ${bk.pay?'':'disabled'}>Confirm Booking →</button></div>
+    `;
+  } else if (S.bookStep === 5) {
+    // Booking already saved in nextStep() - just read it
+    const bid = S._activeBookingId;
+    const bkObj = S.bookings.find(x=>x.id===bid)||{};
+    const pl = {upi:'UPI',card:'Credit Card',nb:'Net Banking',cash:'Cash on Service'};
+    c.innerHTML = `
+      <div class="cnf">
+        <div class="cnf-ico">✅</div>
+        <div class="cnf-t">Booking Confirmed!</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:18px">Your technician is on the way. Track in real time.</div>
+        <div class="csm" style="text-align:left;margin-bottom:18px;background:var(--card)">
+          <div class="dr"><span style="color:var(--muted)">Booking ID</span><span style="font-family:monospace;font-size:11px">${bid}</span></div>
+          <div class="dr"><span style="color:var(--muted)">Service</span><span style="text-transform:capitalize">${bkObj.svc||''}</span></div>
+          <div class="dr"><span style="color:var(--muted)">Technician</span><span>${bkObj.tech||''}</span></div>
+          <div class="dr"><span style="color:var(--muted)">ETA</span><span style="color:var(--green)">~25 minutes</span></div>
+          <div class="dr"><span style="color:var(--muted)">Estimate</span><span style="color:var(--accent)">${bkObj.amt||''}</span></div>
+          <div class="dr"><span style="color:var(--muted)">Payment</span><span>${bkObj.pay||''}</span></div>
+        </div>
+        <div style="display:flex;gap:9px"><button class="btn btn-s" style="flex:1" onclick="nav('track')">📍 Track Job</button><button class="btn btn-p" style="flex:1" onclick="nav('home')">Done ✓</button></div>
+      </div>
+    `;
+  }
+}
+
+function pickSvc(s) {
+  S.bk.svc = s;
+  document.querySelectorAll('.svc-t').forEach(t=>t.classList.remove('on'));
+  document.getElementById('st'+(s==='plumbing'?'p':'e'))?.classList.add('on');
+  const b=document.getElementById('s1b'); if(b) b.disabled=false;
+}
+function pickTech(id) { S.bk.tech=id; rBook(); }
+function pickPay(id) {
+  S.bk.pay = id;
+  document.querySelectorAll('.pay-r').forEach(r=>{r.classList.remove('on');r.querySelector('.radio')?.classList.remove('on')});
+  document.getElementById('pm-'+id)?.classList.add('on');
+  document.getElementById('pm-'+id)?.querySelector('.radio')?.classList.add('on');
+  const b=document.getElementById('s4b'); if(b) b.disabled=false;
+}
+function nextStep() {
+  if (S.bookStep===2) {
+    const t=document.getElementById('iss-t'); if(t) S.bk._issue=t.value;
+    const s=document.getElementById('iss-s'); if(s) S.bk.sev=s.value;
+  }
+  if (S.bookStep===4 && !S._activeBookingId) {
+    // Save booking exactly ONCE when user hits Confirm on payment step
+    const bid = '#FIX-' + Date.now().toString().slice(-6);
+    const dt = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+    const issName = S.bk._issue || (S.bk.svc==='plumbing'?'Plumbing Service':'Electrical Service');
+    const pl = {upi:'UPI',card:'Credit Card',nb:'Net Banking',cash:'Cash on Service'};
+    const newBk = {id:bid, svc:S.bk.svc, name:issName, tech:techN(S.bk.tech), techId:S.bk.tech, date:dt, amt:aiRange().split('–')[0].trim(), status:'confirmed', pay:pl[S.bk.pay]||''};
+    S.bookings.push(newBk);
+    S._activeBookingId = bid;
+    persistBookings();
+  }
+  if (S.bookStep<5) { S._midFlow=true; S.bookStep++; rBook(); }
+}
+function prevStep() { if(S.bookStep>1){ S._midFlow=true; S.bookStep--; rBook(); } }
+function recalcAI() {
+  const s=document.getElementById('iss-s')?.value||'medium';
+  const t=document.getElementById('iss-t')?.value||'';
+  const m={low:{r:'₹300 – ₹600',t:'~1 hr',l:'₹250',p:'₹50–350'},medium:{r:'₹600 – ₹950',t:'~1.5 hrs',l:'₹400',p:'₹200–550'},high:{r:'₹1,100 – ₹2,000',t:'~2.5 hrs',l:'₹700',p:'₹400–1,300'}};
+  const d=m[s]; const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set('ai-p',d.r); set('ai-t',d.t); set('ai-l',d.l); set('ai-pt',d.p);
+  set('ai-n',`Based on ${t.toLowerCase()||'issue type'}, severity & ${S.user.city} averages`);
+  S.bk.sev=s;
+}
+function fakeUp() {
+  const z=document.getElementById('upz');
+  if(z){z.innerHTML='✅  Photo attached (IMG_1234.jpg)';z.style.borderColor='var(--green)';z.style.color='var(--green)';}
+}
+function techN(id) { return id==='t1'?'Arjun Kumar':id==='t2'?'Suresh Babu':id==='t3'?'Mohan Das':'—'; }
+function aiRange() { const s=S.bk.sev||'medium'; return s==='low'?'₹300 – ₹600':s==='high'?'₹1,100 – ₹2,000':'₹600 – ₹950'; }
+
+// ══ MY BOOKINGS ══
+function rBookings(f) {
+  f=f||'all';
+  const c=document.getElementById('bk-list');
+  let items=S.bookings;
+  if(f==='active') items=items.filter(b=>b.status==='confirmed');
+  if(f==='done')   items=items.filter(b=>b.status==='completed'||b.status==='rated');
+  if(!items.length){
+    c.innerHTML=`<div class="empty"><div class="e-ico">📋</div><div class="e-title">No bookings here</div><div class="e-txt">${f==='all'?"You haven't made any bookings yet. Book your first service to get started!":f==='active'?'No active jobs right now.':'No completed bookings yet.'}</div>${f==='all'?'<button class="btn btn-p" onclick="nav(\'book\')">Book a Service</button>':''}</div>`;
+    return;
+  }
+  const sm={confirmed:['ca','Confirmed'],completed:['cg','Completed'],rated:['cg','★ Rated']};
+  c.innerHTML=items.slice().reverse().map(b=>{
+    const[cl,lb]=sm[b.status]||['cmt','—'];
+    return `<div class="csm chov" style="display:flex;align-items:center;gap:12px;margin-bottom:8px" onclick="nav('track')">
+      <div style="width:38px;height:38px;border-radius:var(--rxs);background:${b.svc==='plumbing'?'rgba(20,184,166,.12)':'rgba(59,130,246,.12)'};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${b.svc==='plumbing'?'🔧':'⚡'}</div>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:1px">${b.name}</div><div style="font-size:11px;color:var(--muted)">${b.tech} · ${b.date}</div><div style="font-size:10px;color:var(--muted2)">${b.id}</div></div>
+      <div style="text-align:right;flex-shrink:0"><div style="font-size:13px;font-weight:600;margin-bottom:3px">${b.amt}</div><span class="chip ${cl}">${lb}</span></div>
+    </div>`;
+  }).join('');
+}
+function filterBk(f,btn){
+  document.querySelectorAll('.tab-row .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active'); rBookings(f);
+}
+
+// ══ TRACK ══
+function rTrack() {
+  const c=document.getElementById('track-c');
+  const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
+  if(!lb){
+    c.innerHTML=`<div class="empty"><div class="e-ico">📍</div><div class="e-title">No active job</div><div class="e-txt">Once you confirm a booking, you can track your technician and job status here in real time.</div><button class="btn btn-p" onclick="nav('book')">Book a Service</button></div>`;
+    return;
+  }
+
+  const tIni = lb.techId==='t1'?'AK':lb.techId==='t2'?'SB':'MD';
+  const isDone = lb.status==='completed'||lb.status==='rated';
+  const isRated = lb.status==='rated';
+
+  // Build step indicators based on actual status
+  // confirmed = step 3 active (on the way)
+  // completed or rated = all 5 done
+  const steps = [
+    {l:'Booked'},
+    {l:'Confirmed'},
+    {l:'On the way'},
+    {l:'Servicing'},
+    {l:'Done'},
+  ];
+  const activeStep = isDone ? 5 : 3; // confirmed=on the way (3), done=all complete (5)
+  const stepsHTML = steps.map((st,i)=>{
+    const n=i+1;
+    const cls = n<activeStep?'dn': n===activeStep&&!isDone?'cr': isDone?'dn':'pd';
+    const icon = (n<activeStep||isDone)?'✓': n===activeStep?'→':'·';
+    return `<div class="ts"><div class="ts-d ${cls}">${icon}</div><div class="ts-l">${st.l}</div></div>`;
+  }).join('');
+
+  const headerChip = isDone
+    ? `<span class="chip cg">✓ Completed</span>`
+    : `<span class="chip cg">● Live</span>`;
+  const headerTitle = isDone ? 'Job Completed' : 'Job in Progress';
+  const etaLine = isDone
+    ? `<div style="font-size:11px;color:var(--green);margin-top:2px">✓ Service completed</div>`
+    : `<div style="font-size:11px;color:var(--green);margin-top:2px">ETA ~8 minutes</div>`;
+
+  const actionButtons = isDone
+    ? isRated
+      ? `<div style="background:rgba(34,197,94,.08);border:0.5px solid rgba(34,197,94,.22);border-radius:var(--rsm);padding:12px;text-align:center;font-size:13px;color:var(--green)">★ You've already rated this service</div>`
+      : `<div style="display:flex;gap:9px"><button class="btn btn-p btn-full btn-lg" onclick="nav('rate')">Rate Service ★</button></div>`
+    : `<div style="display:flex;gap:9px">
+        <button class="btn btn-s" style="flex:1" onclick="markDone()">Mark as Completed</button>
+        <button class="btn btn-p" style="flex:1" onclick="nav('rate')">Rate Service ★</button>
+      </div>`;
+
+  c.innerHTML=`
+    <div class="trk" style="${isDone?'border-color:rgba(34,197,94,.3);background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(34,197,94,.03))':''}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+        <div style="font-family:var(--fh);font-size:14px;font-weight:700">${headerTitle}</div>
+        ${headerChip}
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:13px">${lb.id} · ${lb.name}</div>
+      <div class="trk-steps">${stepsHTML}</div>
+    </div>
+    <div class="csm" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div class="t-ava" style="background:linear-gradient(135deg,#f59e0b,#f97316)">${tIni}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500">${lb.tech}</div><div style="font-size:11px;color:var(--muted)"><span class="stars">★★★★★</span> ID Verified</div>${etaLine}</div>
+      <button class="btn btn-s btn-sm">📞 Call</button>
+    </div>
+    <div class="map-z" style="margin-bottom:12px">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06" viewBox="0 0 400 110"><defs><pattern id="gp2" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="white" stroke-width=".4"/></pattern></defs><rect width="400" height="110" fill="url(#gp2)"/></svg>
+      <div style="position:relative;z-index:1;text-align:center"><div style="font-size:24px;margin-bottom:3px">📍</div><div style="font-size:11px;color:var(--muted)">${S.user.city}</div></div>
+    </div>
+    <div class="csm" style="margin-bottom:12px">
+      <div class="dr"><span style="color:var(--muted)">Service</span><span style="text-transform:capitalize">${lb.svc}</span></div>
+      <div class="dr"><span style="color:var(--muted)">Estimate</span><span style="color:var(--accent)">${lb.amt}</span></div>
+      <div class="dr"><span style="color:var(--muted)">Payment</span><span>${lb.pay||'—'}</span></div>
+      <div class="dr"><span style="color:var(--muted)">Status</span><span class="chip ${isDone?'cg':'ca'}" style="font-size:11px">${lb.status==='rated'?'Rated ★':lb.status==='completed'?'Completed':'In Progress'}</span></div>
+    </div>
+    ${actionButtons}
+  `;
+}
+function markDone(){
+  const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
+  if(lb){ lb.status='completed'; persistBookings(); }
+  rTrack();
+}
+
+// ══ RATE ══
+function rRate() {
+  const c=document.getElementById('rate-c'), lb=S.bookings[S.bookings.length-1];
+  if(!lb){c.innerHTML=`<div class="empty"><div class="e-ico">⭐</div><div class="e-title">Nothing to rate</div><div class="e-txt">Complete a service booking to rate your technician.</div><button class="btn btn-p" onclick="nav('book')">Book a Service</button></div>`;return;}
+  S.rating=0;
+  const tIni=lb.techId==='t1'?'AK':lb.techId==='t2'?'SB':'MD';
+  c.innerHTML=`
+    <div style="text-align:center;padding:8px 0 18px">
+      <div style="font-size:38px;margin-bottom:9px">⭐</div>
+      <div style="font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:3px">Rate Your Experience</div>
+      <div style="font-size:12px;color:var(--muted)">${lb.name} · ${lb.date}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:11px;background:var(--surf);border-radius:var(--rsm);margin-bottom:18px">
+      <div class="t-ava" style="background:linear-gradient(135deg,#a78bfa,#3b82f6);width:40px;height:40px">${tIni}</div>
+      <div><div style="font-size:14px;font-weight:500">${lb.tech}</div><div style="font-size:11px;color:var(--muted)">Your technician</div></div>
+    </div>
+    <div class="il">How was the service?</div>
+    <div class="star-row" id="stars">${[1,2,3,4,5].map(n=>`<span class="star" onclick="setRating(${n})">☆</span>`).join('')}</div>
+    <div id="r-lbl" style="font-size:12px;color:var(--muted);margin-bottom:14px;min-height:17px"></div>
+    <div class="iw"><label class="il">Comments (optional)</label><textarea class="inp" rows="3" placeholder="Describe your experience..."></textarea></div>
+    <div style="margin-bottom:16px">
+      <div class="il" style="margin-bottom:8px">Quick tags</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span class="tag" onclick="this.classList.toggle('on')">✓ On time</span>
+        <span class="tag" onclick="this.classList.toggle('on')">👔 Professional</span>
+        <span class="tag" onclick="this.classList.toggle('on')">🧹 Clean work</span>
+        <span class="tag" onclick="this.classList.toggle('on')">💬 Communicative</span>
+        <span class="tag" onclick="this.classList.toggle('on')">💰 Fair price</span>
+      </div>
+    </div>
+    <div style="background:rgba(245,158,11,.07);border:0.5px solid rgba(245,158,11,.18);border-radius:var(--rxs);padding:9px 11px;font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:14px">⭐ Your rating shapes ${lb.tech.split(' ')[0]}'s commission tier: 5★ = 15%, 4★ = 20%, 3★ = 25%</div>
+    <button class="btn btn-p btn-full btn-lg" id="r-btn" onclick="submitRating()" disabled>Submit Rating</button>
+  `;
+}
+function setRating(n){
+  S.rating=n;
+  const lbls=['','Poor 😕','Fair 😐','Good 🙂','Great 😊','Excellent! 🤩'];
+  document.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('on',i<n);s.textContent=i<n?'★':'☆';});
+  const l=document.getElementById('r-lbl');if(l)l.textContent=lbls[n];
+  const b=document.getElementById('r-btn');if(b)b.disabled=false;
+}
+function submitRating(){
+  const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
+  if(lb){ lb.status='rated'; lb.userRating=S.rating; persistBookings(); }
+  document.getElementById('rate-c').innerHTML=`<div style="text-align:center;padding:34px 0"><div style="font-size:48px;margin-bottom:13px">🙏</div><div style="font-family:var(--fh);font-size:19px;font-weight:800;margin-bottom:6px">Thank you!</div><div style="font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.7">Your ${S.rating}-star rating has been submitted.<br>This directly impacts ${lb?.tech?.split(' ')[0]||'the technician'}'s commission tier.</div><button class="btn btn-p btn-lg" onclick="nav('home')">Back to Home</button></div>`;
+}
+
+// ══ TECH DASHBOARD ══
+function rTDash(){
+  const u=S.user, fn=u.name.split(' ')[0];
+  document.getElementById('tdash-c').innerHTML=`
+    <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.06));border:0.5px solid rgba(245,158,11,.19);border-radius:var(--r);padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:13px">
+      <div style="font-size:34px">🔧</div>
+      <div style="flex:1"><div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:2px">Hi ${fn} 👋</div><div style="font-size:12px;color:var(--muted)">${u.city} · ${u.spec||'Service Partner'}</div></div>
+      <div style="text-align:right"><div style="font-size:10px;color:var(--muted)">Commission</div><div style="font-family:var(--fh);font-size:19px;font-weight:800;color:var(--green)">15%</div><div style="font-size:10px;color:var(--green)">5★ tier</div></div>
+    </div>
+    <div class="g2" style="margin-bottom:18px">
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">💰</div><div class="sv" style="color:var(--accent)">₹0</div><div class="sl">Today's earnings</div><div class="ss" style="color:var(--muted);font-style:italic">Accept jobs to earn</div></div>
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">📋</div><div class="sv">0</div><div class="sl">Jobs today</div><div class="ss" style="color:var(--muted);font-style:italic">No jobs yet</div></div>
+    </div>
+    <div class="sec-row"><div class="sec-t">New Job Requests</div><span class="chip ca">0 new</span></div>
+    <div class="empty"><div class="e-ico">📭</div><div class="e-title">No requests yet</div><div class="e-txt">Job requests from nearby customers will appear here. Complete your onboarding to start receiving requests.</div><button class="btn btn-p" onclick="nav('onboard')">Complete Onboarding</button></div>
+  `;
+}
+
+// ══ MY JOBS (TECH) ══
+function rTJobs(){
+  document.getElementById('tjobs-c').innerHTML=`<div class="empty"><div class="e-ico">🛠️</div><div class="e-title">No jobs yet</div><div class="e-txt">Accepted and completed jobs will appear here once you start receiving customer requests.</div><button class="btn btn-s" onclick="nav('onboard')">View Onboarding</button></div>`;
+}
+
+// ══ EARNINGS ══
+function rEarn(){
+  document.getElementById('earn-c').innerHTML=`
+    <div class="g2" style="margin-bottom:18px">
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">💸</div><div class="sv" style="color:var(--accent)">₹0</div><div class="sl">This month</div><div class="ss" style="color:var(--muted);font-style:italic">After commission</div></div>
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">📊</div><div class="sv">₹0</div><div class="sl">Gross billed</div><div class="ss" style="color:var(--muted);font-style:italic">0 jobs</div></div>
+    </div>
+    <div class="sec-t" style="margin-bottom:12px">Commission Tiers</div>
+    <table class="ctbl" style="margin-bottom:18px">
+      <thead><tr><th>Rating</th><th>Platform fee</th><th>You keep</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><span style="color:var(--accent)">★★★★★</span> 5-star</td><td style="color:var(--green);font-weight:600">15%</td><td style="color:var(--green);font-weight:600">85%</td><td><span class="chip cg">Your tier ✓</span></td></tr>
+        <tr><td><span style="color:var(--accent)">★★★★</span> 4-star</td><td>20%</td><td>80%</td><td><span class="chip cb">Standard</span></td></tr>
+        <tr><td><span style="color:var(--muted)">★★★</span> 3-star</td><td style="color:var(--red)">25%</td><td>75%</td><td><span class="chip cmt">Entry</span></td></tr>
+      </tbody>
+    </table>
+    <div class="empty" style="padding:28px 18px"><div class="e-ico">📈</div><div class="e-title">No earnings yet</div><div class="e-txt">Complete jobs to earn money. New partners start at the 5-star tier (15% commission) — keep your ratings high to stay there!</div></div>
+  `;
+}
+
+// ══ ONBOARDING ══
+function rOnboard(){
+  const u=S.user;
+  document.getElementById('ob-c').innerHTML=`
+    <div style="max-width:500px;margin:0 auto">
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-family:var(--fh);font-size:15px;font-weight:800;margin-bottom:3px">Technician Onboarding</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Complete all steps to start receiving job requests</div>
+        <div class="prog-t" style="margin-bottom:5px"><div class="prog-f" style="width:40%"></div></div>
+        <div style="font-size:11px;color:var(--muted)">2 of 5 steps completed</div>
+      </div>
+      <div class="obs dn"><div class="obi dn">✓</div><div><div style="font-size:13px;font-weight:500">Personal Information</div><div style="font-size:11px;color:var(--muted)">${u.name} · ${u.email} · ${u.city} ✓</div></div></div>
+      <div class="obs dn"><div class="obi dn">✓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Government ID Verification</div><div style="font-size:11px;color:var(--muted)">Aadhaar submitted · Verification in progress</div></div></div>
+      <div class="obs cr"><div class="obi cr">3</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Skill Assessment</div><div style="font-size:11px;color:var(--muted)">${u.spec||'Plumbing'} · Online test required</div></div><button class="btn btn-p btn-sm">Take Test</button></div>
+      <div class="obs"><div class="obi pd">4</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Bank Account Linking</div><div style="font-size:11px;color:var(--muted)">Required for payouts · Code on Wages 2019</div></div></div>
+      <div class="obs"><div class="obi pd">5</div><div><div style="font-size:13px;font-weight:500">Service Area Setup</div><div style="font-size:11px;color:var(--muted)">Set preferred zones and travel radius</div></div></div>
+      <div class="card" style="margin-top:14px;background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.18)">
+        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">Independent Partner Agreement</strong><br>You operate as an independent service partner, not a Fixify employee. Choose your own hours and accept or decline jobs freely. Fixify ensures fair payouts under the <em style="color:var(--text)">Code on Wages, 2019</em>. Your ID is verified once to protect customers.</div>
+      </div>
+    </div>
+  `;
+}
+
+// ══ NOTIFICATIONS ══
+function rNotif(){
+  document.getElementById('ndot').style.display='none';
+  const fn=S.user.name.split(' ')[0];
+  const ns=S.role==='customer'
+    ?[{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:`Hi ${fn}, your account is ready. Book your first service!`,tm:'Just now'},{ico:'🎁',bg:'rgba(245,158,11,.14)',t:'Welcome offer active',m:'Use code FIXNEW for ₹100 off your first booking.',tm:'Just now'}]
+    :[{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:`Hi ${fn}, complete onboarding to start receiving jobs.`,tm:'Just now'},{ico:'✅',bg:'rgba(34,197,94,.14)',t:'5-star tier assigned',m:'New partners start at 15% commission. Keep ratings high!',tm:'Just now'}];
+  document.getElementById('notif-c').innerHTML=ns.map(n=>`<div class="ni"><div class="ni-ico" style="background:${n.bg}">${n.ico}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">${n.t}</div><div style="font-size:12px;color:var(--muted)">${n.m}</div></div><div style="font-size:10px;color:var(--muted2);white-space:nowrap;flex-shrink:0;margin-left:9px">${n.tm}</div></div>`).join('');
+}
+
+// ══ PROFILE ══
+function rProfile(){
+  const u=S.user, iT=S.role==='technician';
+  const col=iT?'linear-gradient(135deg,#f59e0b,#f97316)':'linear-gradient(135deg,#a78bfa,#3b82f6)';
+  document.getElementById('profile-c').innerHTML=`
+    <div style="max-width:480px;margin:0 auto">
+      <div class="card" style="text-align:center;margin-bottom:13px;padding:26px 18px">
+        <div style="width:62px;height:62px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:white;margin:0 auto 13px">${u.initials}</div>
+        <div style="font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:3px">${u.name}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${iT?(u.spec||'Technician')+' · '+u.city:'Customer · '+u.city}</div>
+        <span class="chip ${iT?'ca':'cg'}">${iT?'🔧 Service Partner':'🏠 Verified Customer'}</span>
+      </div>
+      <div class="card" style="margin-bottom:13px">
+        <div class="sec-t" style="margin-bottom:12px">Account Details</div>
+        <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>✉️</span><span style="font-size:13px">${u.email}</span></div>
+        <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>📱</span><span style="font-size:13px">+91 ${u.phone}</span><span class="chip cg" style="margin-left:auto">Verified</span></div>
+        <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>📍</span><span style="font-size:13px">${u.city}</span></div>
+        ${iT?`<div class="csm chov" style="display:flex;gap:11px;align-items:center"><span>🏅</span><span style="font-size:13px">Specialisation: ${u.spec||'—'}</span></div>`:''}
+      </div>
+      ${iT?`<div class="card" style="margin-bottom:13px;background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.2)"><div class="sec-t" style="margin-bottom:10px">Commission Tier</div><div style="display:flex;align-items:center;gap:13px"><div style="font-family:var(--fh);font-size:34px;font-weight:800;color:var(--green)">15%</div><div><div style="font-size:13px;font-weight:500;margin-bottom:2px">5-Star Tier (Starting)</div><div style="font-size:11px;color:var(--muted)">Keep quality high to maintain your low commission rate.</div></div></div></div>`:''}
+      <div class="card" style="margin-bottom:13px">
+        <div class="sec-t" style="margin-bottom:11px">Settings</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <button class="btn btn-s btn-full">💬 Help &amp; Support</button>
+          <button class="btn btn-s btn-full">📄 Terms &amp; Privacy</button>
+          <button class="btn-danger btn btn-full" onclick="signOut()">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
