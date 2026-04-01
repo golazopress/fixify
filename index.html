@@ -270,7 +270,7 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
       <button class="btn btn-p btn-lg btn-full" onclick="window.goTo('pg-signup')">Get Started — It's Free</button>
       <button class="btn btn-s btn-lg btn-full" onclick="window.goTo('pg-login')">Sign In</button>
     </div>
-    <div style="margin-top:24px;font-size:11px;color:var(--muted2)">Trusted by 50,000+ homeowners · Verified technicians only</div>
+    
   </div>
 </div>
 
@@ -357,15 +357,32 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
             <option>Less than 1 year</option><option>1–3 years</option><option>3–5 years</option><option>5–10 years</option><option>10+ years</option>
           </select>
         </div>
+        <div class="divider"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:11px;text-transform:uppercase;letter-spacing:.6px">Document Upload</div>
+        <!-- Aadhaar Upload -->
         <div class="iw">
-          <label class="il">Government ID Type</label>
-          <select class="inp" id="su-idt">
-            <option>Aadhaar Card</option><option>PAN Card</option><option>Driving Licence</option><option>Voter ID</option>
-          </select>
+          <label class="il">Aadhaar Card <span style="color:var(--red)">*</span></label>
+          <div id="aadhaar-zone" onclick="triggerUpload('aadhaar-input','aadhaar-zone')"
+            style="border:0.5px dashed var(--border2);border-radius:var(--rxs);padding:14px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;transition:all .15s">
+            📄 Tap to upload Aadhaar Card (JPG/PNG/PDF)
+          </div>
+          <input type="file" id="aadhaar-input" accept=".jpg,.jpeg,.png,.pdf" style="display:none"
+            onchange="handleUpload(this,'aadhaar-zone','aadhaar-name')">
+          <div id="aadhaar-name" style="font-size:11px;color:var(--green);margin-top:5px;display:none"></div>
         </div>
-        <div class="iw"><label class="il">ID Number</label><input class="inp" id="su-idn" type="text" placeholder="XXXX XXXX XXXX"></div>
+        <!-- ITI Certificate Upload -->
+        <div class="iw">
+          <label class="il">ITI Certificate / Trade Licence <span style="color:var(--red)">*</span></label>
+          <div id="iti-zone" onclick="triggerUpload('iti-input','iti-zone')"
+            style="border:0.5px dashed var(--border2);border-radius:var(--rxs);padding:14px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;transition:all .15s">
+            📜 Tap to upload ITI Certificate or Trade Licence (JPG/PNG/PDF)
+          </div>
+          <input type="file" id="iti-input" accept=".jpg,.jpeg,.png,.pdf" style="display:none"
+            onchange="handleUpload(this,'iti-zone','iti-name')">
+          <div id="iti-name" style="font-size:11px;color:var(--green);margin-top:5px;display:none"></div>
+        </div>
         <div style="background:rgba(245,158,11,.07);border:0.5px solid rgba(245,158,11,.18);border-radius:var(--rxs);padding:9px 11px;font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:12px">
-          🔒 Your ID is verified once for customer safety. You operate as an independent partner — choose your own hours & accept jobs freely. Compliant with the Code on Wages, 2019.
+          🔒 Documents are verified once for customer safety. You operate as an independent partner — choose your own hours &amp; accept jobs freely. Compliant with the Code on Wages, 2019.
         </div>
       </div>
 
@@ -377,6 +394,38 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
       <div style="text-align:center;font-size:12px;color:var(--muted)">Already have an account? <button class="lnk-btn" onclick="window.goTo('pg-login')">Sign in</button></div>
     </div>
     <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ▓▓ VERIFY (Technician OTP) ▓▓ -->
+<div class="page" id="pg-verify" style="background:var(--bg)">
+  <div class="auth-bg"></div>
+  <div class="auth-scroll">
+    <div class="auth-logo">
+      <div class="auth-wordmark">Fixify</div>
+      <div class="auth-sub">Verification</div>
+    </div>
+    <div class="auth-card" style="text-align:center">
+      <div style="font-size:42px;margin-bottom:14px">📋</div>
+      <div class="auth-title" style="text-align:center">Documents Submitted!</div>
+      <div style="font-size:13px;color:var(--muted);margin:10px 0 22px;line-height:1.7;text-align:center">
+        Thank you for uploading your documents.<br>
+        Our team will verify your Aadhaar and ITI Certificate within <strong style="color:var(--text)">24–48 hours</strong>.
+      </div>
+      <div style="background:rgba(245,158,11,.08);border:0.5px solid rgba(245,158,11,.25);border-radius:var(--rsm);padding:18px;margin-bottom:22px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Your Verification Code</div>
+        <div style="font-family:var(--fh);font-size:36px;font-weight:800;color:var(--accent);letter-spacing:8px">777777</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Share this code with our team when they contact you</div>
+      </div>
+      <div style="background:rgba(34,197,94,.07);border:0.5px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:13px;margin-bottom:22px;font-size:12px;color:var(--muted);line-height:1.7;text-align:left">
+        <strong style="color:var(--text)">What happens next?</strong><br>
+        1. Our team reviews your documents<br>
+        2. We call you on <span id="verify-phone" style="color:var(--text)">your registered number</span><br>
+        3. You confirm using code <strong style="color:var(--accent)">777777</strong><br>
+        4. Account activated — start receiving jobs!
+      </div>
+      <button class="btn btn-p btn-full btn-lg" onclick="window.goTo('pg-login')">Go to Login →</button>
+    </div>
   </div>
 </div>
 
@@ -640,11 +689,31 @@ async function _doSignup() {
     userObj.exp  = document.getElementById('su-exp').value;
   }
 
-  await fbSaveAccount(key, { user:userObj, password:pw, bookings:[], isOnline:false, jobRequests:[], notifications:[] });
+  // Validate document uploads for technicians
+  if (S.signupRole === 'technician') {
+    var aadhaarUploaded = !!window._upload_aadhaar_zone;
+    var itiUploaded     = !!window._upload_iti_zone;
+    if (!aadhaarUploaded || !itiUploaded) {
+      alert('Please upload both your Aadhaar Card and ITI Certificate / Trade Licence to continue.');
+      return;
+    }
+    userObj.aadhaarFile = window._upload_aadhaar_zone;
+    userObj.itiFile     = window._upload_iti_zone;
+  }
+
+  fbSaveAccount(key, { user:userObj, password:pw, bookings:[], isOnline:false, jobRequests:[], notifications:[] });
 
   S.user = userObj; S.role = S.signupRole; S.bookings = [];
   saveSession(key);
-  launch();
+
+  // Technicians go to verification page; customers go straight to app
+  if (S.signupRole === 'technician') {
+    var phoneEl = document.getElementById('verify-phone');
+    if (phoneEl) phoneEl.textContent = '+91 ' + ph;
+    goTo('pg-verify');
+  } else {
+    launch();
+  }
 }
 
 function demoFill(r) {
@@ -748,6 +817,37 @@ function startNotifPolling() {
 }
 
 // ══ EXPOSE FUNCTIONS TO HTML (needed because Firebase uses ES module scope) ══
+// ── File upload handlers ──
+function triggerUpload(inputId, zoneId) {
+  var input = document.getElementById(inputId);
+  if (input) input.click();
+}
+function handleUpload(input, zoneId, nameId) {
+  var zone = document.getElementById(zoneId);
+  var nameEl = document.getElementById(nameId);
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  var maxMB = 5;
+  if (file.size > maxMB * 1024 * 1024) {
+    alert('File too large. Please upload a file under 5MB.');
+    input.value = '';
+    return;
+  }
+  // Show uploaded filename
+  if (zone) {
+    zone.innerHTML = '✅ ' + file.name;
+    zone.style.borderColor = 'var(--green)';
+    zone.style.color = 'var(--green)';
+    zone.style.background = 'rgba(34,197,94,.05)';
+  }
+  if (nameEl) {
+    nameEl.textContent = file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)';
+    nameEl.style.display = 'block';
+  }
+  // Store filename on window for validation
+  window['_upload_' + zoneId] = file.name;
+}
+
 // ── District validation ──
 const VALID_DISTRICTS = [
   'thiruvananthapuram',
@@ -790,6 +890,8 @@ document.addEventListener('focusout', function(e) {
 });
 
 // Expose functions to HTML onclick handlers
+window.triggerUpload = triggerUpload;
+window.handleUpload  = handleUpload;
 window.goTo             = goTo;
 window.signOut = signOut;
 window.setSignupRole    = setSignupRole;
