@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Fixify — Home Services</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -266,8 +267,8 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
     <div style="font-family:var(--fh);font-size:40px;font-weight:800;color:var(--accent);letter-spacing:-2px;margin-bottom:5px">Fixify</div>
     <div style="font-size:13px;color:var(--muted);margin-bottom:48px">Home repairs, done right.</div>
     <div style="display:flex;flex-direction:column;gap:10px;width:260px;margin:0 auto">
-      <button class="btn btn-p btn-lg btn-full" onclick="goTo('pg-signup')">Get Started — It's Free</button>
-      <button class="btn btn-s btn-lg btn-full" onclick="goTo('pg-login')">Sign In</button>
+      <button class="btn btn-p btn-lg btn-full" onclick="window.goTo('pg-signup')">Get Started — It's Free</button>
+      <button class="btn btn-s btn-lg btn-full" onclick="window.goTo('pg-login')">Sign In</button>
     </div>
     <div style="margin-top:24px;font-size:11px;color:var(--muted2)">Trusted by 50,000+ homeowners · Verified technicians only</div>
   </div>
@@ -288,12 +289,12 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
       <div style="margin-bottom:18px">
         <div class="il">I want to</div>
         <div class="role-toggle">
-          <div class="role-opt on" id="ro-cust" onclick="setSignupRole('customer')">
+          <div class="role-opt on" id="ro-cust" onclick="window.setSignupRole('customer')">
             <div class="role-opt-ico">🏠</div>
             <div class="role-opt-name">Book Services</div>
             <div class="role-opt-sub">I'm a customer</div>
           </div>
-          <div class="role-opt" id="ro-tech" onclick="setSignupRole('technician')">
+          <div class="role-opt" id="ro-tech" onclick="window.setSignupRole('technician')">
             <div class="role-opt-ico">🔧</div>
             <div class="role-opt-name">Offer Services</div>
             <div class="role-opt-sub">I'm a technician</div>
@@ -314,13 +315,29 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
         </div>
       </div>
       <div class="iw">
-        <label class="il">City</label>
-        <select class="inp" id="su-city">
-          <option value="">Select your city</option>
-          <option>Bengaluru</option><option>Mumbai</option><option>Delhi</option>
-          <option>Hyderabad</option><option>Chennai</option><option>Pune</option>
-          <option>Kolkata</option><option>Ahmedabad</option><option>Jaipur</option><option>Kochi</option>
+        <label class="il">State</label>
+        <select class="inp" id="su-state">
+          <option value="">Select state</option>
+          <option value="Kerala">Kerala</option>
+          <option value="other" disabled style="color:var(--muted2)">─── More states coming soon ───</option>
         </select>
+      </div>
+      <div class="iw">
+        <label class="il">District</label>
+        <select class="inp" id="su-district">
+          <option value="">Select district</option>
+          <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+          <option value="Ernakulam (Kochi)">Ernakulam (Kochi)</option>
+          <option value="Kozhikode (Calicut)">Kozhikode (Calicut)</option>
+        </select>
+      </div>
+      <div class="iw">
+        <label class="il">House / Flat No. &amp; Street</label>
+        <input class="inp" id="su-street" type="text" placeholder="e.g. 12B, MG Road, Near Bus Stand">
+      </div>
+      <div class="iw">
+        <label class="il">Pincode</label>
+        <input class="inp" id="su-pin" type="text" placeholder="e.g. 682001" maxlength="6">
       </div>
 
       <!-- Technician extras -->
@@ -354,10 +371,10 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
 
       <div class="iw" style="margin-top:3px"><label class="il">Create Password</label><input class="inp" id="su-pw" type="password" placeholder="Minimum 8 characters"></div>
 
-      <button class="btn btn-p btn-full btn-lg" style="margin-top:4px" onclick="doSignup()">Create Account →</button>
+      <button class="btn btn-p btn-full btn-lg" style="margin-top:4px" onclick="window.doSignup()">Create Account →</button>
       <div class="terms">By signing up you agree to Fixify's <span style="color:var(--accent);cursor:pointer">Terms</span> &amp; <span style="color:var(--accent);cursor:pointer">Privacy Policy</span></div>
       <div class="div-or">or</div>
-      <div style="text-align:center;font-size:12px;color:var(--muted)">Already have an account? <button class="lnk-btn" onclick="goTo('pg-login')">Sign in</button></div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">Already have an account? <button class="lnk-btn" onclick="window.goTo('pg-login')">Sign in</button></div>
     </div>
     <div style="height:16px"></div>
   </div>
@@ -380,16 +397,16 @@ select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+x
         <input class="inp" id="li-pw" type="password" placeholder="Your password">
         <div style="text-align:right;margin-top:5px"><button class="lnk-btn">Forgot password?</button></div>
       </div>
-      <button class="btn btn-p btn-full btn-lg" onclick="doLogin()">Sign In →</button>
+      <button class="btn btn-p btn-full btn-lg" onclick="window.doLogin()">Sign In →</button>
       <div style="margin-top:14px;background:rgba(245,158,11,.06);border:0.5px solid rgba(245,158,11,.18);border-radius:var(--rxs);padding:10px 11px">
         <div style="font-size:11px;color:var(--muted);margin-bottom:7px">Quick demo — tap to try:</div>
         <div style="display:flex;gap:7px">
-          <button class="btn btn-s btn-sm" style="flex:1" onclick="demoFill('customer')">🏠 Customer demo</button>
-          <button class="btn btn-s btn-sm" style="flex:1" onclick="demoFill('technician')">🔧 Technician demo</button>
+          <button class="btn btn-s btn-sm" style="flex:1" onclick="window.demoFill('customer')">🏠 Customer demo</button>
+          <button class="btn btn-s btn-sm" style="flex:1" onclick="window.demoFill('technician')">🔧 Technician demo</button>
         </div>
       </div>
       <div class="div-or">or</div>
-      <div style="text-align:center;font-size:12px;color:var(--muted)">No account? <button class="lnk-btn" onclick="goTo('pg-signup')">Sign up free</button></div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">No account? <button class="lnk-btn" onclick="window.goTo('pg-signup')">Sign up free</button></div>
     </div>
   </div>
 </div>
@@ -455,23 +472,69 @@ const S = {
 };
 
 // ══ STORAGE HELPERS ══
+
+// ── localStorage helpers ──
 function saveAccounts() {
   try { localStorage.setItem('fixify_accounts', JSON.stringify(window._accounts||{})); } catch(e){}
 }
 function loadAccounts() {
   try { window._accounts = JSON.parse(localStorage.getItem('fixify_accounts')||'{}'); }
   catch(e) { window._accounts = {}; }
+  // ensure email on user
+  Object.entries(window._accounts).forEach(function(entry) {
+    var k = entry[0], a = entry[1];
+    if (a && a.user && !a.user.email) a.user.email = k;
+  });
+  return window._accounts;
 }
-function saveSession(email) {
-  try { localStorage.setItem('fixify_session', email||''); } catch(e){}
+function fbSaveAccount(key, data) {
+  loadAccounts();
+  window._accounts[key] = data;
+  saveAccounts();
+  return Promise.resolve();
+}
+function fbGetAccount(key) {
+  loadAccounts();
+  return Promise.resolve(window._accounts[key] || null);
+}
+function fbGetAllAccounts() {
+  return Promise.resolve(loadAccounts());
+}
+function fbUpdateAccount(key, fields) {
+  loadAccounts();
+  if (!window._accounts[key]) window._accounts[key] = {};
+  Object.assign(window._accounts[key], fields);
+  saveAccounts();
+  return Promise.resolve();
+}
+
+// ── Session helpers (still localStorage — just stores who is logged in) ──
+function persistBookings() {
+  if (!S.user) return;
+  var key = S.user.email.toLowerCase();
+  loadAccounts();
+  if (window._accounts[key]) {
+    window._accounts[key].bookings = S.bookings || [];
+    saveAccounts();
+  }
+}
+
+function saveSession(key) {
+  try { localStorage.setItem('fixify_session', key); } catch(e){}
 }
 function clearSession() {
   try { localStorage.removeItem('fixify_session'); } catch(e){}
 }
+
+// ── Sync current user's bookings ──
 function persistBookings() {
-  if (!S.user || !window._accounts) return;
-  const key = S.user.email.toLowerCase();
-  if (window._accounts[key]) { window._accounts[key].bookings = S.bookings; saveAccounts(); }
+  if (!S.user) return;
+  var key = S.user.email.toLowerCase();
+  loadAccounts();
+  if (window._accounts[key]) {
+    window._accounts[key].bookings = S.bookings || [];
+    saveAccounts();
+  }
 }
 
 // ══ PAGE ROUTING ══
@@ -487,83 +550,291 @@ function setSignupRole(r) {
   document.getElementById('ro-tech').classList.toggle('on', r === 'technician');
   document.getElementById('tech-ext').style.display = r === 'technician' ? 'block' : 'none';
 }
-function doSignup() {
-  const fn = document.getElementById('su-fn').value.trim();
-  const ln = document.getElementById('su-ln').value.trim();
-  const em = document.getElementById('su-em').value.trim();
-  const ph = document.getElementById('su-ph').value.trim();
-  const ct = document.getElementById('su-city').value;
-  const pw = document.getElementById('su-pw').value;
-  if (!fn||!ln||!em||!ph||!ct||!pw) { alert('Please fill in all required fields.'); return; }
-  loadAccounts();
+
+const DISTRICTS = {
+  Kerala: ['Thiruvananthapuram', 'Ernakulam (Kochi)', 'Kozhikode (Calicut)'],
+};
+
+// Populate district dropdown when state changes
+(function() {
+  var districts = {
+    Kerala: ['Thiruvananthapuram', 'Ernakulam (Kochi)', 'Kozhikode (Calicut)']
+  };
+  var lastState = '';
+  function syncDistricts() {
+    var stateSel = document.getElementById('su-state');
+    var distSel  = document.getElementById('su-district');
+    if (!stateSel || !distSel) return;
+    var state = stateSel.value;
+    if (state === lastState) return;
+    lastState = state;
+    distSel.innerHTML = '';
+    var list = districts[state] || [];
+    if (!list.length) {
+      var o = document.createElement('option');
+      o.value = ''; o.textContent = 'Select state first';
+      distSel.appendChild(o);
+      return;
+    }
+    var placeholder = document.createElement('option');
+    placeholder.value = ''; placeholder.textContent = 'Select district';
+    distSel.appendChild(placeholder);
+    list.forEach(function(d) {
+      var o = document.createElement('option');
+      o.value = d; o.textContent = d;
+      distSel.appendChild(o);
+    });
+  }
+  setInterval(syncDistricts, 200);
+  window.updateDistricts = syncDistricts;
+})();
+function updateDistricts() { window.updateDistricts(); }
+
+// Also attach listener programmatically (more reliable than inline onchange)
+document.addEventListener('DOMContentLoaded', function() {
+  const stateSel = document.getElementById('su-state');
+  if (stateSel) stateSel.addEventListener('change', updateDistricts);
+});
+
+async function _doSignup() {
+  const fn     = document.getElementById('su-fn').value.trim();
+  const ln     = document.getElementById('su-ln').value.trim();
+  const em     = document.getElementById('su-em').value.trim();
+  const ph     = document.getElementById('su-ph').value.trim();
+  const state  = document.getElementById('su-state').value;
+  const ct_raw = document.getElementById('su-district').value.trim();
+  if (ct_raw && !validateDistrict(ct_raw)) {
+    alert('Please enter a valid district. We currently serve Thiruvananthapuram, Ernakulam and Kozhikode.'); return;
+  }
+  const ct = ct_raw ? normalizeDistrict(ct_raw) : '';
+  const street = document.getElementById('su-street').value.trim();
+  const pin    = document.getElementById('su-pin').value.trim();
+  const pw     = document.getElementById('su-pw').value;
+
+  if (!fn||!ln||!em||!ph||!state||!ct||!street||!pin||!pw) {
+    alert('Please fill in all required fields including your full address.'); return;
+  }
+  if (pin.length !== 6 || isNaN(pin)) { alert('Please enter a valid 6-digit pincode.'); return; }
+
+  const pinNum = parseInt(pin);
+  const inServiceArea = (pinNum >= 673001 && pinNum <= 673661) ||
+                        (pinNum >= 680667 && pinNum <= 686693) ||
+                        (pinNum >= 695001 && pinNum <= 695615);
+  if (!inServiceArea) {
+    alert('Sorry! We are currently not available in your area.\n\nFixify is currently serving select districts in Kerala. We are expanding soon — stay tuned! 🚀');
+    return;
+  }
+
   const key = em.toLowerCase();
-  if (window._accounts[key]) { alert('An account with this email already exists. Please sign in instead.'); goTo('pg-login'); return; }
-  const ini = (fn[0]+ln[0]).toUpperCase();
-  const userObj = { name:fn+' '+ln, email:em, phone:ph, city:ct, role:S.signupRole, initials:ini };
+  const existing = await fbGetAccount(key);
+  if (existing) {
+    hideLoader();
+    alert('An account with this email already exists. Please sign in instead.');
+    goTo('pg-login'); return;
+  }
+
+  const ini     = (fn[0]+ln[0]).toUpperCase();
+  const userObj = { name:fn+' '+ln, email:em, phone:ph, state, city:ct, street, pincode:pin, role:S.signupRole, initials:ini };
   if (S.signupRole === 'technician') {
     userObj.spec = document.getElementById('su-spec').value || 'Plumbing';
     userObj.exp  = document.getElementById('su-exp').value;
   }
-  window._accounts[key] = { user:userObj, password:pw, bookings:[] };
-  saveAccounts();
+
+  await fbSaveAccount(key, { user:userObj, password:pw, bookings:[], isOnline:false, jobRequests:[], notifications:[] });
+
   S.user = userObj; S.role = S.signupRole; S.bookings = [];
   saveSession(key);
   launch();
 }
+
 function demoFill(r) {
   document.getElementById('li-em').value = r==='customer' ? 'rahul@demo.com' : 'arjun@demo.com';
   document.getElementById('li-pw').value = 'demo1234';
 }
-function doLogin() {
+
+async function _doLogin() {
   const em = document.getElementById('li-em').value.trim();
   const pw = document.getElementById('li-pw').value.trim();
   if (!em||!pw) { alert('Please enter your credentials.'); return; }
-  loadAccounts();
+
   const key = em.toLowerCase();
-  if (window._accounts[key]) {
-    const acct = window._accounts[key];
-    if (acct.password !== pw) { alert('Incorrect password. Please try again.'); return; }
+  const acct = await fbGetAccount(key);
+
+  if (acct) {
+    if (acct.password !== pw) { hideLoader(); alert('Incorrect password. Please try again.'); return; }
     S.user = acct.user; S.role = acct.user.role; S.bookings = acct.bookings || [];
-    saveSession(key); launch(); return;
+    saveSession(key); hideLoader(); launch(); return;
   }
-  // Demo fallback (arjun = tech demo, anything else = customer demo)
-  if (em.toLowerCase().includes('arjun') || em.toLowerCase().includes('tech')) {
-    S.user = { name:'Arjun Kumar', email:em, phone:'8765432109', city:'Bengaluru', role:'technician', spec:'Plumbing', initials:'AK' };
+
+  // Demo fallback
+  if (em.includes('arjun') || em.includes('tech')) {
+    S.user = { name:'Arjun Kumar', email:em, phone:'8765432109', city:'Thiruvananthapuram', state:'Kerala', street:'12, MG Road', pincode:'695001', role:'technician', spec:'Plumbing', initials:'AK' };
     S.role = 'technician';
   } else {
     const nm = em.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-    S.user = { name:nm, email:em, phone:'9876543210', city:'Bengaluru', role:'customer', initials:em.slice(0,2).toUpperCase() };
+    S.user = { name:nm, email:em, phone:'9876543210', city:'Thiruvananthapuram', state:'Kerala', street:'5, Park Avenue', pincode:'695002', role:'customer', initials:em.slice(0,2).toUpperCase() };
     S.role = 'customer';
   }
   S.bookings = [];
-  saveSession(key);
-  launch();
+  // Save demo account to localStorage
+  const existing = await fbGetAccount(key);
+  if (!existing) {
+    await fbSaveAccount(key, { user:S.user, password:pw, bookings:[], isOnline:false, jobRequests:[], notifications:[] });
+  }
+  saveSession(key); hideLoader(); launch();
 }
+
 function launch() {
   buildSidebar(); updateTopbar();
   nav(S.role==='customer' ? 'home' : 'tdash');
   goTo('pg-app');
+  // Start polling for notifications
+  startNotifPolling();
 }
+
 function signOut() {
   if (!confirm('Sign out of Fixify?')) return;
   persistBookings();
+  if (S.role === 'technician' && S.user) {
+    fbUpdateAccount(S.user.email.toLowerCase(), { isOnline: false });
+  }
   clearSession();
   Object.assign(S, { user:null, bookings:[], bk:{svc:null,issue:null,sev:'medium',tech:null,pay:null}, _activeBookingId:null, _midFlow:false });
   goTo('pg-splash');
 }
 
-// ══ AUTO-LOGIN on load ══
-window.addEventListener('load', function() {
-  loadAccounts();
-  try {
-    const key = localStorage.getItem('fixify_session')||'';
-    if (key && window._accounts[key]) {
-      const acct = window._accounts[key];
-      S.user = acct.user; S.role = acct.user.role; S.bookings = acct.bookings || [];
-      launch();
+// ── Loading overlay ──
+function showLoader(msg) {
+  let el = document.getElementById('fb-loader');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'fb-loader';
+    el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+    el.innerHTML = '<div style="width:32px;height:32px;border:3px solid rgba(245,158,11,.3);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite"></div><div style="color:var(--text);font-size:13px">' + (msg||'Loading...') + '</div>';
+    document.body.appendChild(el);
+    if (!document.getElementById('spin-style')) {
+      const s = document.createElement('style');
+      s.id = 'spin-style';
+      s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+      document.head.appendChild(s);
     }
-  } catch(e) {}
+  } else {
+    el.querySelector('div:last-child').textContent = msg||'Loading...';
+    el.style.display = 'flex';
+  }
+}
+function hideLoader() {
+  const el = document.getElementById('fb-loader');
+  if (el) el.style.display = 'none';
+}
+
+// ── Notification polling ──
+let _notifPollInterval = null;
+function startNotifPolling() {
+  if (_notifPollInterval) clearInterval(_notifPollInterval);
+  _notifPollInterval = setInterval(function() {
+    if (!S.user) return;
+    var key  = S.user.email.toLowerCase();
+    var acct = loadAccounts()[key];
+    if (!acct) return;
+    S.bookings = acct.bookings || [];
+    var hasUnread = (acct.notifications||[]).some(function(n){ return !n.read; });
+    var dot = document.getElementById('ndot');
+    if (dot) dot.style.display = hasUnread ? 'block' : 'none';
+    if (S.screen === 'tdash') rTDash();
+    if (S.screen === 'tjobs') rTJobs();
+    if (S.screen === 'track') rTrack();
+  }, 3000);
+}
+
+// ══ EXPOSE FUNCTIONS TO HTML (needed because Firebase uses ES module scope) ══
+// ── District validation ──
+const VALID_DISTRICTS = [
+  'thiruvananthapuram',
+  'ernakulam', 'ernakulam (kochi)', 'kochi',
+  'kozhikode', 'kozhikode (calicut)', 'calicut',
+];
+
+function validateDistrict(val) {
+  if (!val || !val.trim()) return false;
+  return VALID_DISTRICTS.includes(val.trim().toLowerCase());
+}
+
+function normalizeDistrict(val) {
+  const v = (val||'').trim().toLowerCase();
+  if (v === 'kochi' || v === 'ernakulam (kochi)' || v === 'ernakulam') return 'Ernakulam (Kochi)';
+  if (v === 'calicut' || v === 'kozhikode (calicut)' || v === 'kozhikode') return 'Kozhikode (Calicut)';
+  if (v === 'thiruvananthapuram') return 'Thiruvananthapuram';
+  return val.trim();
+}
+
+// Show/hide district hint based on state selection (polls every 300ms)
+setInterval(function() {
+  var stateSel = document.getElementById('su-state');
+  var hint     = document.getElementById('su-district-hint');
+  var distInp  = document.getElementById('su-district');
+  if (!stateSel || !hint) return;
+  hint.style.display = stateSel.value === 'Kerala' ? 'block' : 'none';
+}, 300);
+
+// Validate district on blur
+document.addEventListener('focusout', function(e) {
+  if (!e.target || e.target.id !== 'su-district') return;
+  var val    = e.target.value.trim();
+  var errEl  = document.getElementById('su-district-err');
+  var hintEl = document.getElementById('su-district-hint');
+  if (!errEl || !val) { if (errEl) errEl.style.display = 'none'; return; }
+  var valid = validateDistrict(val);
+  errEl.style.display  = valid ? 'none'  : 'block';
+  if (hintEl) hintEl.style.display = valid ? 'none' : 'block';
 });
+
+// Expose functions to HTML onclick handlers
+window.goTo             = goTo;
+window.signOut = signOut;
+window.setSignupRole    = setSignupRole;
+window.demoFill         = demoFill;
+window.nav              = nav;
+window.startBook        = startBook;
+window.filterBk         = filterBk;
+window.pickSvc          = pickSvc;
+window.pickTech         = pickTech;
+window.pickPay          = pickPay;
+window.nextStep         = nextStep;
+window.prevStep         = prevStep;
+window.recalcAI         = recalcAI;
+window.fakeUp           = fakeUp;
+window.toggleOnline     = toggleOnline;
+window.techAcceptJob    = techAcceptJob;
+window.techDeclineJob   = techDeclineJob;
+window.markDone         = markDone;
+window.submitRating     = submitRating;
+window.setRating        = setRating;
+window.validateDistrict = validateDistrict;
+window.normalizeDistrict = normalizeDistrict;
+// doSignup and doLogin wrapped with error display
+window.doSignup = async function() {
+  try { await _doSignup(); } catch(e) { hideLoader(); alert('Signup error: ' + (e.message||e)); }
+};
+window.doLogin = async function() {
+  try { await _doLogin(); } catch(e) { hideLoader(); alert('Login error: ' + (e.message||e)); }
+};
+
+// ══ AUTO-LOGIN on load ══
+window.addEventListener('load', async function() {
+
+  const key = localStorage.getItem('fixify_session') || '';
+  if (!key) return;
+  showLoader('Signing you in...');
+  const acct = await fbGetAccount(key);
+  if (acct) {
+    S.user = acct.user; S.role = acct.user.role; S.bookings = acct.bookings || [];
+    hideLoader(); launch();
+  } else {
+    hideLoader();
+  }
+});
+
 
 // ══ SIDEBAR ══
 const NAV_C = [
@@ -631,15 +902,20 @@ function nav(id) {
 }
 
 // ══ HOME ══
-function rHome() {
+async function rHome() {
   const u = S.user, fn = u.name.split(' ')[0];
+  loadAccounts();
+  const _accts     = await fbGetAllAccounts();
+  const nearbyTechs = Object.values(_accts).filter(a=>a.user&&a.user.role==='technician'&&(a.user.city||'').toLowerCase()===u.city.toLowerCase()&&a.isOnline===true).length;
+  const availTxt = nearbyTechs===0?'No technicians online nearby':`${nearbyTechs} technician${nearbyTechs!==1?'s':''} online nearby`;
+  const availColor = nearbyTechs===0?'var(--accent2)':'var(--green)';
   const bkHTML = S.bookings.length === 0
     ? `<div class="empty"><div class="e-ico">📋</div><div class="e-title">No bookings yet</div><div class="e-txt">Your bookings will appear here once you make your first service request.</div></div>`
     : S.bookings.slice(-2).reverse().map(b => bkCard(b)).join('');
   document.getElementById('sc-home').innerHTML = `
     <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(167,139,250,.06));border:0.5px solid rgba(245,158,11,.17);border-radius:var(--r);padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
       <div style="font-size:34px">🏠</div>
-      <div style="flex:1"><div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:2px">Hi ${fn} 👋</div><div style="font-size:12px;color:var(--muted)">${u.city} · <span style="color:var(--green)">● Technicians available</span></div></div>
+      <div style="flex:1"><div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:2px">Hi ${fn} 👋</div><div style="font-size:12px;color:var(--muted)">${u.city} · <span style="color:${availColor}">● ${availTxt}</span></div></div>
       <span class="chip cg">✓ Verified</span>
     </div>
     <div class="sec-row"><div class="sec-t">What needs fixing?</div></div>
@@ -683,7 +959,7 @@ function rStepBar() {
     return `<div class="stp"><div class="stp-n ${c}">${n<S.bookStep?'✓':n}</div><span class="stp-l ${c==='cr'?'cr':''}">${l}</span></div>${n<5?`<div class="stp-line ${n<S.bookStep?'dn':''}"></div>`:''}`;
   }).join('');
 }
-function rBook() {
+async function rBook() {
   rStepBar();
   const c = document.getElementById('book-c');
   const bk = S.bk;
@@ -717,15 +993,41 @@ function rBook() {
       <div style="display:flex;gap:9px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" onclick="nextStep()">Continue →</button></div>
     `;
   } else if (S.bookStep === 3) {
-    const techs = [
-      {id:'t1',name:'Arjun Kumar',ini:'AK',bg:'linear-gradient(135deg,#f59e0b,#f97316)',r:'4.9',j:'238',d:'2.4 km',eta:'25 min',cm:'15%',cc:'cg',sp:bk.svc==='plumbing'?'Master Plumber':'Licensed Electrician'},
-      {id:'t2',name:'Suresh Babu',ini:'SB',bg:'linear-gradient(135deg,#3b82f6,#a78bfa)',r:'4.6',j:'142',d:'3.1 km',eta:'35 min',cm:'15%',cc:'cg',sp:bk.svc==='plumbing'?'Plumber':'Electrician'},
-      {id:'t3',name:'Mohan Das',ini:'MD',bg:'linear-gradient(135deg,#22c55e,#14b8a6)',r:'4.2',j:'87',d:'4.8 km',eta:'52 min',cm:'20%',cc:'cb',sp:bk.svc==='plumbing'?'Plumbing Tech':'Electrical Tech'},
-    ];
+    // Get real technicians from localStorage — same city, matching specialisation, online
+    const techs = await getAvailableTechs(bk.svc, S.user.city);
+    const avCount = techs.length;
+    const techCards = techs.map((t,i) => {
+      const colors = ['linear-gradient(135deg,#f59e0b,#f97316)','linear-gradient(135deg,#3b82f6,#a78bfa)','linear-gradient(135deg,#22c55e,#14b8a6)','linear-gradient(135deg,#a78bfa,#ef4444)','linear-gradient(135deg,#14b8a6,#3b82f6)'];
+      const bg = colors[i % colors.length];
+      const techEmail = (t.email||'').toLowerCase();
+      const isSelected = (bk.tech||'').toLowerCase() === techEmail;
+      const ini = t.initials || (t.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      return `<div class="tc ${isSelected?'on':''}" id="tc-${i}" onclick="pickTech('${techEmail}')">
+        <div class="t-ava" style="background:${bg}">${ini}</div>
+        <div style="flex:1;min-width:0">
+          <div class="t-nm">${t.name}</div>
+          <div class="t-mt"><span class="stars">★</span> New · ${t.spec||'Technician'} · ${t.city}</div>
+          <div class="t-et">● Online · Available now</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+          <span class="chip cg" style="font-size:10px">15% comm.</span>
+          ${isSelected?'<span style="color:var(--accent);font-size:15px">✓</span>':''}
+        </div>
+      </div>`;
+    }).join('');
     c.innerHTML = `
-      <div class="sec-row"><div class="sec-t">Choose a Technician</div><span style="font-size:11px;color:var(--muted)">3 nearby · All ID-verified</span></div>
-      ${techs.map(t=>`<div class="tc ${bk.tech===t.id?'on':''}" id="tc-${t.id}" onclick="pickTech('${t.id}')"><div class="t-ava" style="background:${t.bg}">${t.ini}</div><div style="flex:1;min-width:0"><div class="t-nm">${t.name}</div><div class="t-mt"><span class="stars">★</span> ${t.r} · ${t.j} jobs · ${t.d} · ${t.sp}</div><div class="t-et">ETA ~${t.eta}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="chip ${t.cc}" style="font-size:10px">${t.cm} comm.</span>${bk.tech===t.id?'<span style="color:var(--accent);font-size:15px">✓</span>':''}</div></div>`).join('')}
-      <div style="display:flex;gap:9px;margin-top:4px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" id="s3b" onclick="nextStep()" ${bk.tech?'':'disabled'}>Continue →</button></div>
+      <div class="sec-row"><div class="sec-t">Available Technicians</div><span style="font-size:11px;color:var(--muted)">${avCount} in ${S.user.city}</span></div>
+      ${avCount === 0 ? `
+        <div class="empty">
+          <div class="e-ico">🔍</div>
+          <div class="e-title">No technicians available</div>
+          <div class="e-txt">There are no ${bk.svc} technicians online in ${S.user.city} right now. Try again later or check a different service.</div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:4px"><button class="btn btn-s" onclick="prevStep()">← Back</button></div>
+      ` : `
+        ${techCards}
+        <div style="display:flex;gap:9px;margin-top:4px"><button class="btn btn-s" onclick="prevStep()">← Back</button><button class="btn btn-p btn-lg" id="s3b" onclick="nextStep()" ${bk.tech?'':'disabled'}>Continue →</button></div>
+      `}
     `;
   } else if (S.bookStep === 4) {
     const ms=[{id:'upi',ico:'📲',l:'UPI Payment',s:'Google Pay, PhonePe, Paytm, BHIM'},{id:'card',ico:'💳',l:'Credit / Debit Card',s:'Visa, Mastercard, RuPay'},{id:'nb',ico:'🏦',l:'Net Banking',s:'All major Indian banks'},{id:'cash',ico:'💵',l:'Cash on Service',s:'Pay directly to technician'}];
@@ -766,7 +1068,7 @@ function pickSvc(s) {
   document.getElementById('st'+(s==='plumbing'?'p':'e'))?.classList.add('on');
   const b=document.getElementById('s1b'); if(b) b.disabled=false;
 }
-function pickTech(id) { S.bk.tech=id; rBook(); }
+async function pickTech(email) { S.bk.tech=email; await rBook(); }
 function pickPay(id) {
   S.bk.pay = id;
   document.querySelectorAll('.pay-r').forEach(r=>{r.classList.remove('on');r.querySelector('.radio')?.classList.remove('on')});
@@ -774,7 +1076,7 @@ function pickPay(id) {
   document.getElementById('pm-'+id)?.querySelector('.radio')?.classList.add('on');
   const b=document.getElementById('s4b'); if(b) b.disabled=false;
 }
-function nextStep() {
+async function nextStep() {
   if (S.bookStep===2) {
     const t=document.getElementById('iss-t'); if(t) S.bk._issue=t.value;
     const s=document.getElementById('iss-s'); if(s) S.bk.sev=s.value;
@@ -785,14 +1087,17 @@ function nextStep() {
     const dt = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
     const issName = S.bk._issue || (S.bk.svc==='plumbing'?'Plumbing Service':'Electrical Service');
     const pl = {upi:'UPI',card:'Credit Card',nb:'Net Banking',cash:'Cash on Service'};
-    const newBk = {id:bid, svc:S.bk.svc, name:issName, tech:techN(S.bk.tech), techId:S.bk.tech, date:dt, amt:aiRange().split('–')[0].trim(), status:'confirmed', pay:pl[S.bk.pay]||''};
+    const resolvedTechName = techN(S.bk.tech);
+    const newBk = {id:bid, svc:S.bk.svc, name:issName, tech:resolvedTechName, techId:S.bk.tech, date:dt, amt:aiRange().split('–')[0].trim(), status:'confirmed', pay:pl[S.bk.pay]||''};
     S.bookings.push(newBk);
     S._activeBookingId = bid;
     persistBookings();
+    // Notify technician after current call stack clears so localStorage write is committed
+    setTimeout(() => notifyTechnician(newBk), 50);
   }
-  if (S.bookStep<5) { S._midFlow=true; S.bookStep++; rBook(); }
+  if (S.bookStep<5) { S._midFlow=true; S.bookStep++; await rBook(); }
 }
-function prevStep() { if(S.bookStep>1){ S._midFlow=true; S.bookStep--; rBook(); } }
+async function prevStep() { if(S.bookStep>1){ S._midFlow=true; S.bookStep--; await rBook(); } }
 function recalcAI() {
   const s=document.getElementById('iss-s')?.value||'medium';
   const t=document.getElementById('iss-t')?.value||'';
@@ -806,11 +1111,30 @@ function fakeUp() {
   const z=document.getElementById('upz');
   if(z){z.innerHTML='✅  Photo attached (IMG_1234.jpg)';z.style.borderColor='var(--green)';z.style.color='var(--green)';}
 }
-function techN(id) { return id==='t1'?'Arjun Kumar':id==='t2'?'Suresh Babu':id==='t3'?'Mohan Das':'—'; }
+async function techN(emailOrId) {
+  if (!emailOrId) return emailOrId || '—';
+  const acct = await fbGetAccount(emailOrId.toLowerCase());
+  return acct && acct.user ? acct.user.name : emailOrId;
+}
+async function getAvailableTechs(svc, city) {
+  const all = await fbGetAllAccounts();
+  return Object.values(all)
+    .filter(a => {
+      if (!a || !a.user) return false;
+      const u = a.user;
+      if (u.role !== 'technician') return false;
+      if ((u.city||'').toLowerCase() !== (city||'').toLowerCase()) return false;
+      if (a.isOnline !== true) return false;
+      const spec = (u.spec||'').toLowerCase();
+      if (spec.includes('both')) return true;
+      return spec.includes(svc.toLowerCase());
+    })
+    .map(a => ({ ...a.user }));
+}
 function aiRange() { const s=S.bk.sev||'medium'; return s==='low'?'₹300 – ₹600':s==='high'?'₹1,100 – ₹2,000':'₹600 – ₹950'; }
 
 // ══ MY BOOKINGS ══
-function rBookings(f) {
+async function rBookings(f) {
   f=f||'all';
   const c=document.getElementById('bk-list');
   let items=S.bookings;
@@ -836,7 +1160,7 @@ function filterBk(f,btn){
 }
 
 // ══ TRACK ══
-function rTrack() {
+async function rTrack() {
   const c=document.getElementById('track-c');
   const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
   if(!lb){
@@ -844,7 +1168,7 @@ function rTrack() {
     return;
   }
 
-  const tIni = lb.techId==='t1'?'AK':lb.techId==='t2'?'SB':'MD';
+  const tIni = lb.techId ? (window._accounts&&window._accounts[lb.techId.toLowerCase()]?window._accounts[lb.techId.toLowerCase()].user.initials:lb.techId.slice(0,2).toUpperCase()) : '??';
   const isDone = lb.status==='completed'||lb.status==='rated';
   const isRated = lb.status==='rated';
 
@@ -910,18 +1234,18 @@ function rTrack() {
     ${actionButtons}
   `;
 }
-function markDone(){
+async function markDone(){
   const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
   if(lb){ lb.status='completed'; persistBookings(); }
   rTrack();
 }
 
 // ══ RATE ══
-function rRate() {
+async function rRate() {
   const c=document.getElementById('rate-c'), lb=S.bookings[S.bookings.length-1];
   if(!lb){c.innerHTML=`<div class="empty"><div class="e-ico">⭐</div><div class="e-title">Nothing to rate</div><div class="e-txt">Complete a service booking to rate your technician.</div><button class="btn btn-p" onclick="nav('book')">Book a Service</button></div>`;return;}
   S.rating=0;
-  const tIni=lb.techId==='t1'?'AK':lb.techId==='t2'?'SB':'MD';
+  const tIni = lb.techId ? (window._accounts&&window._accounts[lb.techId.toLowerCase()]?window._accounts[lb.techId.toLowerCase()].user.initials:lb.techId.slice(0,2).toUpperCase()) : '??';
   c.innerHTML=`
     <div style="text-align:center;padding:8px 0 18px">
       <div style="font-size:38px;margin-bottom:9px">⭐</div>
@@ -957,37 +1281,201 @@ function setRating(n){
   const l=document.getElementById('r-lbl');if(l)l.textContent=lbls[n];
   const b=document.getElementById('r-btn');if(b)b.disabled=false;
 }
-function submitRating(){
+async function submitRating(){
   const lb = S._activeBookingId ? S.bookings.find(b=>b.id===S._activeBookingId) : S.bookings[S.bookings.length-1];
   if(lb){ lb.status='rated'; lb.userRating=S.rating; persistBookings(); }
   document.getElementById('rate-c').innerHTML=`<div style="text-align:center;padding:34px 0"><div style="font-size:48px;margin-bottom:13px">🙏</div><div style="font-family:var(--fh);font-size:19px;font-weight:800;margin-bottom:6px">Thank you!</div><div style="font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.7">Your ${S.rating}-star rating has been submitted.<br>This directly impacts ${lb?.tech?.split(' ')[0]||'the technician'}'s commission tier.</div><button class="btn btn-p btn-lg" onclick="nav('home')">Back to Home</button></div>`;
 }
 
 // ══ TECH DASHBOARD ══
-function rTDash(){
+async function toggleOnline() {
+  const key  = S.user.email.toLowerCase();
+  const acct = await fbGetAccount(key);
+  const newOnline = acct ? !acct.isOnline : true;
+  await fbUpdateAccount(key, { isOnline: newOnline, user: S.user });
+  rTDash();
+}
+async function notifyTechnician(booking) {
+  const techId = (booking.techId || '').toLowerCase();
+  if (!techId) return;
+  const all = await fbGetAllAccounts();
+  let techKey = all[techId] ? techId : Object.keys(all).find(k => {
+    return all[k].user && (all[k].user.email||'').toLowerCase() === techId;
+  });
+  if (!techKey) return;
+  const requests = all[techKey].jobRequests || [];
+  if (requests.find(j => j.id === booking.id)) return;
+  requests.push({
+    id: booking.id, svc: booking.svc, name: booking.name,
+    customerName: S.user.name, customerCity: S.user.city,
+    date: booking.date, amt: booking.amt, pay: booking.pay, status: 'pending',
+  });
+  await fbUpdateAccount(techKey, { jobRequests: requests });
+}
+
+async function techAcceptJob(jobId) {
+  const key  = S.user.email.toLowerCase();
+  const acct = await fbGetAccount(key);
+  if (!acct) return;
+  const reqs = acct.jobRequests || [];
+  const req  = reqs.find(j => j.id === jobId);
+  if (req) req.status = 'accepted';
+  const jobs = acct.jobs || [];
+  if (req && !jobs.find(j => j.id === jobId)) {
+    jobs.push({ ...req, acceptedAt: new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) });
+  }
+  await fbUpdateAccount(key, { jobRequests: reqs, jobs });
+  rTDash();
+}
+
+async function techDeclineJob(jobId) {
+  const techKey  = S.user.email.toLowerCase();
+  const all      = await fbGetAllAccounts();
+  const techAcct = all[techKey];
+  if (!techAcct) return;
+  const reqs = techAcct.jobRequests || [];
+  const req  = reqs.find(j => j.id === jobId);
+  if (req) req.status = 'declined';
+  const customerKey = Object.keys(all).find(k => (all[k].bookings||[]).find(b => b.id === jobId));
+  if (customerKey) {
+    const custNotifs   = all[customerKey].notifications || [];
+    const custBookings = all[customerKey].bookings || [];
+    custNotifs.unshift({
+      id: 'notif-' + Date.now(), ico: '❌', bg: 'rgba(239,68,68,.14)',
+      t: 'Booking Declined',
+      m: S.user.name + ' declined your ' + (req ? req.name : 'request') + '. Please book another technician.',
+      tm: 'Just now', bookingId: jobId, read: false,
+    });
+    const bk = custBookings.find(b => b.id === jobId);
+    if (bk) bk.status = 'declined';
+    await fbUpdateAccount(customerKey, { notifications: custNotifs, bookings: custBookings });
+  }
+  await fbUpdateAccount(techKey, { jobRequests: reqs });
+  rTDash();
+}
+
+async function rTDash(){
+  loadAccounts();
   const u=S.user, fn=u.name.split(' ')[0];
+  const key = u.email.toLowerCase();
+  const isOnline = window._accounts[key] ? !!window._accounts[key].isOnline : false;
+  const onlineBg = isOnline ? 'background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3)' : 'background:rgba(139,138,150,.08);border-color:rgba(139,138,150,.25)';
+  const onlineDot = isOnline ? '#22c55e' : '#52515c';
+  const onlineTxt = isOnline ? 'You are <strong style="color:var(--green)">Online</strong> — visible to customers' : 'You are <strong style="color:var(--muted)">Offline</strong> — not receiving requests';
+  // Build job requests HTML from localStorage
+  const _freshAll = await fbGetAllAccounts();
+  let techAcct = _freshAll[key];
+  if (!techAcct) {
+    const _found = Object.values(_freshAll).find(a => a.user && (a.user.email||'').toLowerCase() === key);
+    techAcct = _found || {};
+  }
+  const allRequests = techAcct.jobRequests || [];
+  const pendingReqs = allRequests.filter(j => j.status === 'pending');
+  const acceptedReqs = allRequests.filter(j => j.status === 'accepted');
+  const pendingCount = pendingReqs.length;
+
+  const svcIcon = s => s === 'plumbing' ? '🔧' : '⚡';
+  const svcColor = s => s === 'plumbing' ? 'rgba(20,184,166,.12)' : 'rgba(59,130,246,.12)';
+
+  // Build job cards using string concat — no nested template literals (avoids JS parse bugs)
+  function buildJobCard(j, isPending) {
+    var card = '<div class="csm" style="margin-bottom:10px;border-color:' + (isPending ? 'rgba(245,158,11,.35)' : 'rgba(34,197,94,.3)') + ';background:' + (isPending ? '' : 'rgba(34,197,94,.04)') + '">';
+    card += '<div style="display:flex;align-items:flex-start;gap:12px">';
+    card += '<div style="width:42px;height:42px;border-radius:var(--rxs);background:' + svcColor(j.svc) + ';display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">' + svcIcon(j.svc) + '</div>';
+    card += '<div style="flex:1;min-width:0">';
+    card += '<div style="font-size:13px;font-weight:600;margin-bottom:3px">' + j.name + '</div>';
+    card += '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">👤 ' + j.customerName + ' · 📍 ' + j.customerCity + '</div>';
+    card += '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">📅 ' + j.date + ' · 💳 ' + (j.pay||'') + '</div>';
+    card += '<div style="font-size:12px;color:var(--accent);font-weight:600;margin-top:4px">Est. ' + j.amt + '</div>';
+    card += '</div></div>';
+    if (isPending) {
+      var safeId = j.id.replace(/'/g, '');
+      card += '<div style="display:flex;gap:8px;margin-top:12px">';
+      card += '<button class="btn btn-p" style="flex:1" onclick="techAcceptJob(\"' + safeId + '\")">✓ Accept Job</button>';
+      card += '<button class="btn btn-ghost" style="flex:1;border:0.5px solid var(--border)" onclick="techDeclineJob(\"' + safeId + '\")">✗ Decline</button>';
+      card += '</div>';
+    } else {
+      card += '<div style="font-size:11px;color:var(--green);margin-top:6px">✓ Accepted · ' + j.amt + '</div>';
+    }
+    card += '</div>';
+    return card;
+  }
+
+  var jobRequestsHTML;
+  if (pendingReqs.length === 0 && acceptedReqs.length === 0) {
+    jobRequestsHTML = '<div class="empty"><div class="e-ico">📭</div><div class="e-title">No requests yet</div><div class="e-txt">You are online and visible to customers in ' + u.city + '. New job requests will appear here shortly.</div></div>';
+  } else {
+    jobRequestsHTML = pendingReqs.map(function(j){ return buildJobCard(j, true); }).join('');
+    if (acceptedReqs.length > 0) {
+      jobRequestsHTML += '<div class="sec-t" style="margin-bottom:10px;margin-top:' + (pendingReqs.length?'16px':'0') + '">Active Jobs</div>';
+      jobRequestsHTML += acceptedReqs.map(function(j){ return buildJobCard(j, false); }).join('');
+    }
+  }
+
   document.getElementById('tdash-c').innerHTML=`
-    <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.06));border:0.5px solid rgba(245,158,11,.19);border-radius:var(--r);padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:13px">
-      <div style="font-size:34px">🔧</div>
+    <!-- Online Toggle Card -->
+    <div style="${onlineBg};border:0.5px solid;border-radius:var(--r);padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px">
+      <div style="width:44px;height:44px;border-radius:50%;background:${isOnline?'rgba(34,197,94,.2)':'rgba(139,138,150,.15)'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="width:16px;height:16px;border-radius:50%;background:${onlineDot};${isOnline?'box-shadow:0 0 0 4px rgba(34,197,94,.25)':''}"></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">${onlineTxt}</div>
+        <div style="font-size:11px;color:var(--muted)">${isOnline?'Customers in '+u.city+' can find and book you':'Turn on to start receiving job requests'}</div>
+      </div>
+      <button onclick="toggleOnline()" style="padding:8px 16px;border-radius:20px;border:none;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;${isOnline?'background:#ef4444;color:white':'background:var(--green);color:#0b0b0e'}">
+        ${isOnline?'Go Offline':'Go Online'}
+      </button>
+    </div>
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.06));border:0.5px solid rgba(245,158,11,.19);border-radius:var(--r);padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:13px">
+      <div style="font-size:32px">🔧</div>
       <div style="flex:1"><div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:2px">Hi ${fn} 👋</div><div style="font-size:12px;color:var(--muted)">${u.city} · ${u.spec||'Service Partner'}</div></div>
-      <div style="text-align:right"><div style="font-size:10px;color:var(--muted)">Commission</div><div style="font-family:var(--fh);font-size:19px;font-weight:800;color:var(--green)">15%</div><div style="font-size:10px;color:var(--green)">5★ tier</div></div>
+      <div style="text-align:right"><div style="font-size:10px;color:var(--muted)">Commission</div><div style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--green)">15%</div><div style="font-size:10px;color:var(--green)">5★ tier</div></div>
     </div>
-    <div class="g2" style="margin-bottom:18px">
-      <div class="sc"><div style="font-size:20px;margin-bottom:7px">💰</div><div class="sv" style="color:var(--accent)">₹0</div><div class="sl">Today's earnings</div><div class="ss" style="color:var(--muted);font-style:italic">Accept jobs to earn</div></div>
-      <div class="sc"><div style="font-size:20px;margin-bottom:7px">📋</div><div class="sv">0</div><div class="sl">Jobs today</div><div class="ss" style="color:var(--muted);font-style:italic">No jobs yet</div></div>
+    <div class="g2" style="margin-bottom:16px">
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">💰</div><div class="sv" style="color:var(--accent)">₹0</div><div class="sl">Today's earnings</div></div>
+      <div class="sc"><div style="font-size:20px;margin-bottom:7px">📋</div><div class="sv">0</div><div class="sl">Jobs today</div></div>
     </div>
-    <div class="sec-row"><div class="sec-t">New Job Requests</div><span class="chip ca">0 new</span></div>
-    <div class="empty"><div class="e-ico">📭</div><div class="e-title">No requests yet</div><div class="e-txt">Job requests from nearby customers will appear here. Complete your onboarding to start receiving requests.</div><button class="btn btn-p" onclick="nav('onboard')">Complete Onboarding</button></div>
+    <div class="sec-row"><div class="sec-t">Job Requests</div><span id="req-badge" class="chip ca" style="display:none"></span></div>
+    ${!isOnline ? `
+      <div class="empty">
+        <div class="e-ico" style="opacity:1">💤</div>
+        <div class="e-title">You're offline</div>
+        <div class="e-txt">Turn yourself online above to start receiving job requests from customers in ${u.city}.</div>
+        <button class="btn btn-p" onclick="toggleOnline()">Go Online Now</button>
+      </div>
+    ` : jobRequestsHTML}
   `;
+  // Update badge
+  const badge = document.getElementById('req-badge');
+  if (badge && pendingCount > 0) { badge.textContent = pendingCount + ' new'; badge.style.display='inline-flex'; }
 }
 
 // ══ MY JOBS (TECH) ══
-function rTJobs(){
-  document.getElementById('tjobs-c').innerHTML=`<div class="empty"><div class="e-ico">🛠️</div><div class="e-title">No jobs yet</div><div class="e-txt">Accepted and completed jobs will appear here once you start receiving customer requests.</div><button class="btn btn-s" onclick="nav('onboard')">View Onboarding</button></div>`;
+async function rTJobs(){
+  const key   = S.user.email.toLowerCase();
+  const acct  = await fbGetAccount(key);
+  const jobs  = acct ? (acct.jobs || []) : [];
+  const svcIcon  = s => s === 'plumbing' ? '🔧' : '⚡';
+  const svcColor = s => s === 'plumbing' ? 'rgba(20,184,166,.12)' : 'rgba(59,130,246,.12)';
+  const c = document.getElementById('tjobs-c');
+  if (jobs.length === 0) {
+    c.innerHTML = '<div class="empty"><div class="e-ico">🛠️</div><div class="e-title">No jobs yet</div><div class="e-txt">Accepted jobs will appear here. Go to your dashboard to accept incoming requests.</div><button class="btn btn-s" onclick="nav(\'tdash\')">View Dashboard</button></div>';
+    return;
+  }
+  c.innerHTML = jobs.slice().reverse().map(j => {
+    var card = '<div class="csm" style="display:flex;align-items:center;gap:12px;margin-bottom:9px">';
+    card += '<div style="width:40px;height:40px;border-radius:var(--rxs);background:' + svcColor(j.svc) + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">' + svcIcon(j.svc) + '</div>';
+    card += '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">' + j.name + '</div>';
+    card += '<div style="font-size:11px;color:var(--muted)">👤 ' + j.customerName + ' · 📅 ' + j.date + '</div>';
+    card += '<div style="font-size:10px;color:var(--muted2)">' + j.id + ' · ' + (j.pay||'') + '</div></div>';
+    card += '<div style="text-align:right;flex-shrink:0"><div style="font-size:13px;font-weight:600;margin-bottom:4px">' + j.amt + '</div><span class="chip cg">Active</span></div></div>';
+    return card;
+  }).join('');
 }
 
 // ══ EARNINGS ══
-function rEarn(){
+async function rEarn(){
   document.getElementById('earn-c').innerHTML=`
     <div class="g2" style="margin-bottom:18px">
       <div class="sc"><div style="font-size:20px;margin-bottom:7px">💸</div><div class="sv" style="color:var(--accent)">₹0</div><div class="sl">This month</div><div class="ss" style="color:var(--muted);font-style:italic">After commission</div></div>
@@ -1007,40 +1495,60 @@ function rEarn(){
 }
 
 // ══ ONBOARDING ══
-function rOnboard(){
+async function rOnboard(){
   const u=S.user;
   document.getElementById('ob-c').innerHTML=`
     <div style="max-width:500px;margin:0 auto">
       <div class="card" style="margin-bottom:14px">
         <div style="font-family:var(--fh);font-size:15px;font-weight:800;margin-bottom:3px">Technician Onboarding</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Complete all steps to start receiving job requests</div>
-        <div class="prog-t" style="margin-bottom:5px"><div class="prog-f" style="width:40%"></div></div>
-        <div style="font-size:11px;color:var(--muted)">2 of 5 steps completed</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">All steps completed — you're ready to receive jobs!</div>
+        <div class="prog-t" style="margin-bottom:5px"><div class="prog-f" style="width:100%"></div></div>
+        <div style="font-size:11px;color:var(--green)">✓ All 3 steps completed</div>
       </div>
       <div class="obs dn"><div class="obi dn">✓</div><div><div style="font-size:13px;font-weight:500">Personal Information</div><div style="font-size:11px;color:var(--muted)">${u.name} · ${u.email} · ${u.city} ✓</div></div></div>
-      <div class="obs dn"><div class="obi dn">✓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Government ID Verification</div><div style="font-size:11px;color:var(--muted)">Aadhaar submitted · Verification in progress</div></div></div>
-      <div class="obs cr"><div class="obi cr">3</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Skill Assessment</div><div style="font-size:11px;color:var(--muted)">${u.spec||'Plumbing'} · Online test required</div></div><button class="btn btn-p btn-sm">Take Test</button></div>
-      <div class="obs"><div class="obi pd">4</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Bank Account Linking</div><div style="font-size:11px;color:var(--muted)">Required for payouts · Code on Wages 2019</div></div></div>
-      <div class="obs"><div class="obi pd">5</div><div><div style="font-size:13px;font-weight:500">Service Area Setup</div><div style="font-size:11px;color:var(--muted)">Set preferred zones and travel radius</div></div></div>
-      <div class="card" style="margin-top:14px;background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.18)">
-        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">Independent Partner Agreement</strong><br>You operate as an independent service partner, not a Fixify employee. Choose your own hours and accept or decline jobs freely. Fixify ensures fair payouts under the <em style="color:var(--text)">Code on Wages, 2019</em>. Your ID is verified once to protect customers.</div>
+      <div class="obs dn"><div class="obi dn">✓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Government ID Verification</div><div style="font-size:11px;color:var(--muted)">Submitted during signup · Verification in progress</div></div></div>
+      <div class="obs dn"><div class="obi dn">✓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Specialisation Confirmed</div><div style="font-size:11px;color:var(--muted)">${u.spec||'Plumbing'} · Set during signup ✓</div></div></div>
+      <div class="card" style="margin-top:14px;background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.2);text-align:center;padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">🎉</div>
+        <div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:4px">You're all set!</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Go online on your dashboard to start receiving job requests from customers in ${u.city}.</div>
+        <button class="btn btn-p" onclick="nav('tdash')">Go to Dashboard →</button>
+      </div>
+      <div class="card" style="margin-top:12px;background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.18)">
+        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">Independent Partner Agreement</strong><br>You operate as an independent service partner, not a Fixify employee. Choose your own hours and accept or decline jobs freely. Fixify ensures fair payouts under the <em style="color:var(--text)">Code on Wages, 2019</em>.</div>
       </div>
     </div>
   `;
 }
 
+
 // ══ NOTIFICATIONS ══
-function rNotif(){
-  document.getElementById('ndot').style.display='none';
-  const fn=S.user.name.split(' ')[0];
-  const ns=S.role==='customer'
-    ?[{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:`Hi ${fn}, your account is ready. Book your first service!`,tm:'Just now'},{ico:'🎁',bg:'rgba(245,158,11,.14)',t:'Welcome offer active',m:'Use code FIXNEW for ₹100 off your first booking.',tm:'Just now'}]
-    :[{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:`Hi ${fn}, complete onboarding to start receiving jobs.`,tm:'Just now'},{ico:'✅',bg:'rgba(34,197,94,.14)',t:'5-star tier assigned',m:'New partners start at 15% commission. Keep ratings high!',tm:'Just now'}];
-  document.getElementById('notif-c').innerHTML=ns.map(n=>`<div class="ni"><div class="ni-ico" style="background:${n.bg}">${n.ico}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">${n.t}</div><div style="font-size:12px;color:var(--muted)">${n.m}</div></div><div style="font-size:10px;color:var(--muted2);white-space:nowrap;flex-shrink:0;margin-left:9px">${n.tm}</div></div>`).join('');
+async function rNotif(){
+  const fn   = S.user.name.split(' ')[0];
+  const key  = S.user.email.toLowerCase();
+  const acct = await fbGetAccount(key);
+  const stored = acct ? (acct.notifications || []) : [];
+  // Mark all as read
+  stored.forEach(n => n.read = true);
+  if (stored.length > 0) await fbUpdateAccount(key, { notifications: stored });
+  document.getElementById('ndot').style.display = 'none';
+  const welcome = S.role === 'customer'
+    ? [{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:'Hi ' + fn + ', your account is ready. Book your first service!',tm:'Account created'},{ico:'🎁',bg:'rgba(245,158,11,.14)',t:'Welcome offer active',m:'Use code FIXNEW for ₹100 off your first booking.',tm:'Account created'}]
+    : [{ico:'🎉',bg:'rgba(167,139,250,.14)',t:'Welcome to Fixify!',m:'Hi ' + fn + ', go online on your dashboard to start receiving jobs.',tm:'Account created'},{ico:'✅',bg:'rgba(34,197,94,.14)',t:'5-star tier assigned',m:'New partners start at 15% commission. Keep ratings high!',tm:'Account created'}];
+  const all_notifs = [...stored, ...welcome];
+  var notifHTML = '';
+  all_notifs.forEach(function(n) {
+    notifHTML += '<div class="ni"' + (n.bookingId ? ' onclick="nav(\'book\')" style="cursor:pointer"' : '') + '>';
+    notifHTML += '<div class="ni-ico" style="background:' + n.bg + '">' + n.ico + '</div>';
+    notifHTML += '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">' + n.t + '</div>';
+    notifHTML += '<div style="font-size:12px;color:var(--muted)">' + n.m + '</div></div>';
+    notifHTML += '<div style="font-size:10px;color:var(--muted2);white-space:nowrap;flex-shrink:0;margin-left:9px">' + n.tm + '</div></div>';
+  });
+  document.getElementById('notif-c').innerHTML = notifHTML || '<div class="empty"><div class="e-ico">🔔</div><div class="e-title">No notifications</div></div>';
 }
 
 // ══ PROFILE ══
-function rProfile(){
+async function rProfile(){
   const u=S.user, iT=S.role==='technician';
   const col=iT?'linear-gradient(135deg,#f59e0b,#f97316)':'linear-gradient(135deg,#a78bfa,#3b82f6)';
   document.getElementById('profile-c').innerHTML=`
@@ -1055,7 +1563,7 @@ function rProfile(){
         <div class="sec-t" style="margin-bottom:12px">Account Details</div>
         <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>✉️</span><span style="font-size:13px">${u.email}</span></div>
         <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>📱</span><span style="font-size:13px">+91 ${u.phone}</span><span class="chip cg" style="margin-left:auto">Verified</span></div>
-        <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>📍</span><span style="font-size:13px">${u.city}</span></div>
+        <div class="csm chov" style="display:flex;gap:11px;align-items:center;margin-bottom:7px"><span>📍</span><span style="font-size:13px">${u.street ? u.street + ', ' : ''}${u.city}, ${u.state || 'Kerala'} ${u.pincode ? '– ' + u.pincode : ''}</span></div>
         ${iT?`<div class="csm chov" style="display:flex;gap:11px;align-items:center"><span>🏅</span><span style="font-size:13px">Specialisation: ${u.spec||'—'}</span></div>`:''}
       </div>
       ${iT?`<div class="card" style="margin-bottom:13px;background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.2)"><div class="sec-t" style="margin-bottom:10px">Commission Tier</div><div style="display:flex;align-items:center;gap:13px"><div style="font-family:var(--fh);font-size:34px;font-weight:800;color:var(--green)">15%</div><div><div style="font-size:13px;font-weight:500;margin-bottom:2px">5-Star Tier (Starting)</div><div style="font-size:11px;color:var(--muted)">Keep quality high to maintain your low commission rate.</div></div></div></div>`:''}
@@ -1064,12 +1572,13 @@ function rProfile(){
         <div style="display:flex;flex-direction:column;gap:7px">
           <button class="btn btn-s btn-full">💬 Help &amp; Support</button>
           <button class="btn btn-s btn-full">📄 Terms &amp; Privacy</button>
-          <button class="btn-danger btn btn-full" onclick="signOut()">Sign Out</button>
+          <button class="btn-danger btn btn-full" onclick="window.signOut()">Sign Out</button>
         </div>
       </div>
     </div>
   `;
 }
 </script>
+
 </body>
 </html>
